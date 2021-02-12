@@ -13,15 +13,8 @@ In the text2sound working group, we'll have the following directory structure:
             │   └───user2
             └───production
      └───other subgroups 
-### Where to place your code
-- Please place all your code in your own user directory. 
-- You are free to manage your subfolder as you like, but please be careful not to push changes to other user's folders!
-- Please create a Readme.md file in your directory- a text file describing the contents of your subfolder. 
 
-### Getting started with git - experts skip this
-Git is a widely used versioning control system. [Lots of tutorials](https://www.freecodecamp.org/news/learn-the-basics-of-git-in-under-10-minutes-da548267cc91/) exist. If you have any troubles starting (and are part of the sound of ai community), [contact me](beat.toedtli@ost.ch) any time.
-
-### Setting up and Using the sound-of-ai repo: useful commands for everyone
+### Cookiecutter
 Please use a [cookiecutter](https://cookiecutter.readthedocs.io/en/1.7.2/) template for your directory structure if possible. The [data science template](https://drivendata.github.io/cookiecutter-data-science/) might be useful:
 
 	#activate your local virtual environment if you have one, then:
@@ -31,7 +24,16 @@ Please use a [cookiecutter](https://cookiecutter.readthedocs.io/en/1.7.2/) templ
 
 You'll next fill in some data. What they call `repo_name` will be the name of your new subfolder, `project_name` will be in the title of the README.md of your new subfolder. Please have a look at that file's content. If suitable, follow their suggestions. 
 
-#### Git commands
+## Where to place your code
+- Please place all your code in your own user directory. 
+- You are free to manage your subfolder as you like, but please be careful not to push changes to other user's folders!
+- Please create a Readme.md file in your directory- a text file describing the contents of your subfolder. 
+
+## Getting started with git - experts skip this
+Git is a widely used versioning control system. [Lots of tutorials](https://www.freecodecamp.org/news/learn-the-basics-of-git-in-under-10-minutes-da548267cc91/) exist. If you have any troubles starting (and are part of the sound of ai community), [contact me](beat.toedtli@ost.ch) any time.
+
+## Setting up and Using the sound-of-ai repo: useful commands for everyone
+### Git commands
 Please configure your local git installation to indicate your name and email addess:
 
     git config --global user.name "<Your-Full-Name>"
