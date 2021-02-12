@@ -82,7 +82,7 @@ please [contact us](beat.toedtli@ost.ch).
 
 #### Working with branches
 #### Forking
-Please fork your repo, create a new branch in our local repo and then file a pull request
+Please fork the soundofai repo to your github, create a new branch in our local repo, push your changes to your remote and then file a pull request.
 
 ####Branching
 To make sure you're working on your entirely separate code base, with no danger of pushging file changes for files other authors are working on, branches are useful! To create your own branch of a repository:
