@@ -91,7 +91,7 @@ To file a pull request, go to your local fork of the SoundofAI repository, find 
 One of the coordinators will then approve or reject your pull request. If it is accepted, your code version shows up in the TheSoundOfAIOSR repository.
 
 
-####Branching
+#### Branching
 <a branching><a/>To make sure you're working on your entirely separate code base, with no danger of pushging file changes for files other authors are working on, branches are useful! To create your own branch of a repository:
 
     git checkout -b mycrazytest
