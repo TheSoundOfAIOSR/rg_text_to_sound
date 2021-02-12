@@ -85,13 +85,13 @@ please [contact us](beat.toedtli@ost.ch).
 
 #### Working with branches
 #### Forking
-Please fork the soundofai repo to your github, create a new branch in our local repo, push your changes to your remote and then file a pull request.
+Please fork the soundofai repo to your github, [create a new branch](#branching) in our local repo, push your changes to your remote and then file a pull request.
 Forking the repository is done on the Github Repository website by clicking on the "fork" button. You'll get an copy of that repository in your own github account- where you can do whatever you want. In particular, you can push as many changes as you like.
 To file a pull request, go to your local fork of the SoundofAI repository, find "pull requests" and click on "new pull request". Make sure the pull request is submitted to the official TheSoundOfAIOSR repository.
 One of the coordinators will then approve or reject your pull request. If it is accepted, your code version shows up in the TheSoundOfAIOSR repository.
 
 
-####Branching
+####<a branching><a/>Branching
 To make sure you're working on your entirely separate code base, with no danger of pushging file changes for files other authors are working on, branches are useful! To create your own branch of a repository:
 
     git checkout -b mycrazytest
