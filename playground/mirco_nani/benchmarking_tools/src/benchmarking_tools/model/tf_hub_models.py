@@ -1,3 +1,7 @@
+import tensorflow as tf
+import tensorflow_hub as hub
+import tensorflow_text as text  # Registers the ops.
+
 from benchmarking_tools.model.prediction_model import PredictionModel
 
 # Peculiar models that need more time to code:
