@@ -35,7 +35,6 @@ def benchmark_prediction_model(model, sentences, results=None):
   results["second_prediction_seconds"]=time.time()-now
 
   results["embedding_size"]=prediction.shape[1]
-  #results["additional_infos"]=json.dumps(model.additional_infos())
   results.update(model.additional_infos())
 
   return results
