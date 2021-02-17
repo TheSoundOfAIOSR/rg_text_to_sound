@@ -98,7 +98,7 @@ sentences=[
 
 
 def run(results_destination):
-  df = benchmark(prediction_models[-2:], sentences[2])
+  df = benchmark(prediction_models, sentences)
   df.to_csv(results_destination, index=False)
 
   
