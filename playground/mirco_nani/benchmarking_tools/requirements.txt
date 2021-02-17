@@ -3,4 +3,4 @@ tensorflow_hub>=0.11.0
 tensorflow_text>=2.4.3
 tqdm>=4.56.2
 pandas
-matplitlib
+matplotlib>=3.3.4

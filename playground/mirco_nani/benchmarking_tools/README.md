@@ -34,3 +34,6 @@ The plotting function definition can be found [here](src/benchmarking_tools/plot
 * **first_prediction_seconds**: How much time it takes to make the very first prediction after the build phase
 * **second_prediction_seconds**: How much time it takes to make anothe prediction after the first (to account for possible lazy loading mechanics)
 * **embedding_size**: The number of dimensions of the output embedding
+
+## Complete sample usage
+A complete sample usage can be found [here](notebooks/benchmark_sample_usage.ipynb)
