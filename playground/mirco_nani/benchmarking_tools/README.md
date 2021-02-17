@@ -36,4 +36,5 @@ The plotting function definition can be found [here](src/benchmarking_tools/plot
 * **embedding_size**: The number of dimensions of the output embedding
 
 ## Complete sample usage
-A complete sample usage can be found [here](notebooks/benchmark_sample_usage.ipynb)
+A complete sample usage can be found [here](notebooks/benchmark_sample_usage.ipynb)  
+It can be run on colab [here](https://colab.research.google.com/github/TheSoundOfAIOSR/rg_text_to_sound/blob/main/playground/mirco_nani/benchmarking_tools/notebooks/benchmark_sample_usage.ipynb) or [here](https://colab.research.google.com/github/Mirco-Nani/rg_text_to_sound/blob/main/playground/mirco_nani/benchmarking_tools/notebooks/benchmark_sample_usage.ipynb)
