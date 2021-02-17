@@ -11,8 +11,6 @@ import pandas as pd
 
 
 def benchmark_prediction_model(model, sentences, results=None):
-  #model=eval(f"{model_name}()")
-
   if results is None:
     results={}
   
