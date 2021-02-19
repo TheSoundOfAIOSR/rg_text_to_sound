@@ -7,13 +7,13 @@ from transformers import AutoTokenizer
 from sentence_transformers import SentenceTransformer
 class GensimPredictionModelWithPreprocessor(PredictionModel):
   family='Gensim'
-  HuggingFaceURL = None
+  HuggingFaceURL = 'sentence-transformers/bert-base-nli-mean-tokens'
   def build(self):
     #text_input = tf.keras.layers.Input(shape=(), dtype=tf.string)
     #preprocessor = hub.KerasLayer(self.preprocessor_url)
     self.preprocessor = AutoTokenizer.from_pretrained(HuggingFaceURL)
     encoder_inputs = self.preprocessor
-    self.model = SentenceTransformer('bert-base-nli-mean-tokens')
+    self.model = SentenceTransformer(HuggingFaceURL)
 
   def predict(self, sentences):
     output_tensor = self.model.encode(sentences)
