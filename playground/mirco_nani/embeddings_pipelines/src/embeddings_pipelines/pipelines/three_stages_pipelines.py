@@ -6,7 +6,7 @@ from embeddings_pipelines.model.models import (
     PredictionModel,
     KeywordExtractionModel,
     WordEmbeddingModel,
-    MyltipleWordsEmbeddingModel,
+    MultipleWordsEmbeddingModel,
     EmbeddingDimensionalityReductionModel,
     MultipleEmbeddingsDimensionalityReductionModel
 )

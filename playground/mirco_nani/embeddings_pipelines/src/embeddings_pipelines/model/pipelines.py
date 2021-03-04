@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Any, List, Dict
 import numpy as np
+from embeddings_pipelines.model.models import PredictionModel
 
 class EmbeddingPipeline(ABC):
     @abstractmethod
@@ -14,11 +15,11 @@ class EmbeddingPipeline(ABC):
         """
         pass
 
-  @abstractmethod
-  def build(self):
-    """ This method builds the pipeline that will embed the sentences
-    """
-    pass
+    @abstractmethod
+    def build(self):
+        """ This method builds the pipeline that will embed the sentences
+        """
+        pass
 
     @abstractmethod
     def embed(self, sentence:str) -> np.array:

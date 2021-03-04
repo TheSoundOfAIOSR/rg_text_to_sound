@@ -1,7 +1,8 @@
+import numpy as np
 from embeddings_pipelines.model.models import (
     KeywordExtractionModel,
     WordEmbeddingModel,
-    MyltipleWordsEmbeddingModel,
+    MultipleWordsEmbeddingModel,
     EmbeddingDimensionalityReductionModel,
     MultipleEmbeddingsDimensionalityReductionModel
 )
@@ -57,7 +58,7 @@ class DummyWordEmbeddingModel(WordEmbeddingModel):
           np.array: a 2-D numpy array of floats with shape (N,K) where N is is the 
                     number of input words and K is the embedding size
       """
-      return np.random.Generator.uniform(size=(words.shape[0],self.embedding_size))
+      return np.random.rand(words.shape[0],self.embedding_size)
 
 
 class DummyMultipleWordsEmbeddingModel(MultipleWordsEmbeddingModel):
@@ -138,4 +139,4 @@ class DummyMultipleEmbeddingsDimensionalityReductionModel(MultipleEmbeddingsDime
       Returns:
           np.array: a 1-D numpy array with dimensions lower than the input embeddings dimesionality
       """
-      return np.mean(embedding, axis=0)[:self.reduced_embedding_size]
+      return np.mean(embeddings, axis=0)[:self.reduced_embedding_size]
