@@ -38,6 +38,10 @@ class MergeAtDimensionalityReductionStepPipeline(EmbeddingPipeline):
 
 Select and instantiate the pipeline steps from [models](src/embeddings_pipelines/models/) that extend the step's classes indicated by the signature and use them to instantiate the pipeline
 ```python
+from embeddings_pipelines.models.keyword_extraction_model import DummyKeywordExtractionModel
+from embeddings_pipelines.models.word_embedding_models import DummyWordEmbeddingModel
+from embeddings_pipelines.models.multiple_embeddings_dimensionality_reduction_model import DummyMultipleEmbeddingsDimensionalityReductionModel
+
 step1 = DummyKeywordExtractionModel(separator = " ")
 step2 = DummyWordEmbeddingModel(embedding_size = 256)
 step3 = DummyMultipleEmbeddingsDimensionalityReductionModel(reduced_embedding_size=16)
@@ -64,7 +68,7 @@ print(f""" "{sentence2}" -> {emb2} """)
     + embeddings_pipelines.model.pipelines: contains abstract classes that define the pipelines
     + embeddings_pipelines.model.models: contains abstract classes that define the pipelines steps, AKA the models
 * embeddings_pipelines.pipelines: contains the concrete implementations of the pipelines
-* embeddings_pipelines.models: contains the concrete implementations of the models
+* embeddings_pipelines.models: contains the concrete implementations of the models, every module contains models that implement a specific abstract class definition
 
 ## how to extend
 ### defining new pipelines
@@ -74,9 +78,24 @@ Implementation examples can be found [here](src\embeddings_pipelines\pipelines\t
   
 If the pipeline needs models that are not already defined, new model definitions can be added in the **embeddings_pipelines.model.models** module
 ### defining new models
-In order to define a new model, create a new class inside the **embeddings_pipelines.models** package.  
+In order to define a new model, create a new class inside the **embeddings_pipelines.models** package in the module (.py file) that has the same name of the implemented abstract class definition (create the module if it does not exist).  
 This class needs to extend a model definition found in the **embeddings_pipelines.model.models** module and implement its abstract methods while complying with their signatures.  
-Implementation examples can be found [here](src\embeddings_pipelines\models\dummy_models.py). 
+Here are some implementation examples:
+* [DummyKeywordExtractionModel](src\embeddings_pipelines\models\keyword_extraction_models.py)
+* [DummyWordEmbeddingModel](src\embeddings_pipelines\models\word_embedding_models.py)
+* [DummyMultipleWordsEmbeddingModel](src\embeddings_pipelines\models\multiple_words_embedding_models.py)
+* [DummyEmbeddingDimensionalityReductionModel](src\embeddings_pipelines\models\multiple_embeddings_dimensionality_reduction_model.py)
+* [DummyMultipleEmbeddingsDimensionalityReductionModel](src\embeddings_pipelines\models\multiple_embeddings_dimensionality_reduction_model.py)
+
+
+[here](src\embeddings_pipelines\models\dummy_models.py). 
 
 ## usage example
 A very simple usage example can be found [here](src\embeddings_pipelines\embeddings_pipelines_sample_usage.py). 
+
+## UML of the classes
+NOTE: 
+* you can edit the UML [here](https://lucid.app/lucidchart/invitations/accept/10b794c9-037d-4437-ac1a-96103aaf9037). Once edited, save it on the online tool, export it as PNG and replace the [assets/uml.png](assets/uml.png) file
+* yellow classes are not yet implemented, they are represented for demonstration purposes  
+  
+![UML](assets/uml.png)

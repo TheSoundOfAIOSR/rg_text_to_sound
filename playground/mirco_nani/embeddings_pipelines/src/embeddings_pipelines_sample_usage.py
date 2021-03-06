@@ -2,11 +2,9 @@ def run_example1():
     # import the pipeline that you want to build
     from embeddings_pipelines.pipelines.three_stages_pipelines import MergeAtDimensionalityReductionStepPipeline
     # import the steps that will compose the pipeline
-    from embeddings_pipelines.models.dummy_models import (
-        DummyKeywordExtractionModel,
-        DummyWordEmbeddingModel,
-        DummyMultipleEmbeddingsDimensionalityReductionModel
-    )
+    from embeddings_pipelines.models.keyword_extraction_model import DummyKeywordExtractionModel
+    from embeddings_pipelines.models.word_embedding_models import DummyWordEmbeddingModel
+    from embeddings_pipelines.models.multiple_embeddings_dimensionality_reduction_model import DummyMultipleEmbeddingsDimensionalityReductionModel
 
     # define the pipeline steps with your favourite parameters
     step1 = DummyKeywordExtractionModel(separator = " ")
