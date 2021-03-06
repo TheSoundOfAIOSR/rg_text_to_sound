@@ -74,24 +74,24 @@ print(f""" "{sentence2}" -> {emb2} """)
 ### defining new pipelines
 In order to define a new pipeline, create a new class inside the **embeddings_pipelines.pipelines** package.  
 This class needs to extend [embeddings_pipelines.model.pipelines.EmbeddingPipeline](src/embeddings_pipelines/model/pipelines.py) and needs to implement its abstract methods complying with their signatures.  
-Implementation examples can be found [here](src\embeddings_pipelines\pipelines\three_stages_pipelines.py).  
+Implementation examples can be found [here](src/embeddings_pipelines/pipelines/three_stages_pipelines.py).  
   
 If the pipeline needs models that are not already defined, new model definitions can be added in the **embeddings_pipelines.model.models** module
 ### defining new models
 In order to define a new model, create a new class inside the **embeddings_pipelines.models** package in the module (.py file) that has the same name of the implemented abstract class definition (create the module if it does not exist).  
 This class needs to extend a model definition found in the **embeddings_pipelines.model.models** module and implement its abstract methods while complying with their signatures.  
 Here are some implementation examples:
-* [DummyKeywordExtractionModel](src\embeddings_pipelines\models\keyword_extraction_models.py)
-* [DummyWordEmbeddingModel](src\embeddings_pipelines\models\word_embedding_models.py)
-* [DummyMultipleWordsEmbeddingModel](src\embeddings_pipelines\models\multiple_words_embedding_models.py)
-* [DummyEmbeddingDimensionalityReductionModel](src\embeddings_pipelines\models\multiple_embeddings_dimensionality_reduction_model.py)
-* [DummyMultipleEmbeddingsDimensionalityReductionModel](src\embeddings_pipelines\models\multiple_embeddings_dimensionality_reduction_model.py)
+* [DummyKeywordExtractionModel](src/embeddings_pipelines/models/keyword_extraction_models.py)
+* [DummyWordEmbeddingModel](src/embeddings_pipelines/models/word_embedding_models.py)
+* [DummyMultipleWordsEmbeddingModel](src/embeddings_pipelines/models/multiple_words_embedding_models.py)
+* [DummyEmbeddingDimensionalityReductionModel](src/embeddings_pipelines/models/multiple_embeddings_dimensionality_reduction_model.py)
+* [DummyMultipleEmbeddingsDimensionalityReductionModel](src/embeddings_pipelines/models/multiple_embeddings_dimensionality_reduction_model.py)
 
 
-[here](src\embeddings_pipelines\models\dummy_models.py). 
+[here](src/embeddings_pipelines/models/dummy_models.py). 
 
 ## usage example
-A very simple usage example can be found [here](src\embeddings_pipelines\embeddings_pipelines_sample_usage.py). 
+A very simple usage example can be found [here](src/embeddings_pipelines/embeddings_pipelines_sample_usage.py). 
 
 ## UML of the classes
 NOTE: 
