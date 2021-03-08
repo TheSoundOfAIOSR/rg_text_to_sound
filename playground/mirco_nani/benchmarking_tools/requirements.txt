@@ -1,0 +1,6 @@
+tensorflow>=2.4.0
+tensorflow_hub>=0.11.0
+tensorflow_text>=2.4.3
+tqdm>=4.56.2
+pandas
+matplotlib>=3.3.4
