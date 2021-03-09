@@ -1,5 +1,9 @@
 # rg_text_to_sound
-Research Group - Text to Sound
+**Research Group - Text to Sound**  
+  
+This README has two sections:
+* Main Resources: the "primary"/"most used" resouces, with an in-depth explanation
+* Other Resources: the resources that are implemented in this repository but are secondary, with a brief description and links to more in-depth READMEs
 
 
 # Main Resources
