@@ -26,3 +26,7 @@ class DummyKeywordExtractionModel(KeywordExtractionModel):
           np.array: a 1-D numpy array of strings containing the keywords extracted from the sentences
       """
       return np.array(sentence.split() if self.separator is None else sentence.split(self.separator))
+
+
+    def dispose():
+        pass

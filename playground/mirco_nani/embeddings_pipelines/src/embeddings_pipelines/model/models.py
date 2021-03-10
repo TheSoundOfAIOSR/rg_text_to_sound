@@ -21,6 +21,12 @@ class PredictionModel(ABC):
     """
     pass
 
+  @abstractmethod
+  def dispose(self):
+    """This method frees all the resources occupied in the build method
+    """
+    pass
+
 
 class KeywordExtractionModel(PredictionModel):
     @abstractmethod

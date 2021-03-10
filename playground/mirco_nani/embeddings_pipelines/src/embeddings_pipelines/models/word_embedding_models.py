@@ -26,3 +26,7 @@ class DummyWordEmbeddingModel(WordEmbeddingModel):
                     number of input words and K is the embedding size
       """
       return np.random.rand(words.shape[0],self.embedding_size)
+
+
+    def dispose():
+        pass

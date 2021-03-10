@@ -25,3 +25,7 @@ class DummyEmbeddingDimensionalityReductionModel(EmbeddingDimensionalityReductio
           np.array: a 1-D numpy array with dimensions lower than the input embedding
       """
       return embedding[:self.reduced_embedding_size]
+
+
+    def dispose():
+        pass

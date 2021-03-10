@@ -28,3 +28,7 @@ class DummyMultipleEmbeddingsDimensionalityReductionModel(MultipleEmbeddingsDime
           np.array: a 1-D numpy array with dimensions lower than the input embeddings dimesionality
       """
       return np.mean(embeddings, axis=0)[:self.reduced_embedding_size]
+
+
+    def dispose():
+        pass

@@ -31,3 +31,9 @@ class EmbeddingPipeline(ABC):
         Returns:
             np.array: a 1-D numpy array of floats
         """
+        
+    @abstractmethod
+    def dispose(self):
+        """This method frees all the resources occupied in the build method
+        """
+        pass
