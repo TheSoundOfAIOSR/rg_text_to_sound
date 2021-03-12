@@ -23,7 +23,7 @@ the pipeline uses PredictionModels connecting their I/O in order to get the fina
 ### Setup
 **Using pip**  
 ``` 
-pip install git+https://git@github.com/Mirco-Nani/TheSoundOfAIOSR.git#"subdirectory=playground/mirco_nani/embeddings_pipelines" 
+pip install git+https://git@github.com/TheSoundOfAIOSR/rg_text_to_sound.git#"subdirectory=playground/mirco_nani/embeddings_pipelines" 
 ```
 
 **Using git**  
