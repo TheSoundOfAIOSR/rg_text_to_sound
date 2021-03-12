@@ -100,15 +100,15 @@ print(f""" "{sentence2}" -> {emb2} """)
 
 ## how to extend
 ### defining new pipelines
-In order to define a new pipeline, create a class thet extends [embeddings_pipelines.model.pipelines.EmbeddingPipeline](playground/mirco_nani/embeddings_pipelines/src/embeddings_pipelines/model/pipelines.py) and implements its abstract methods complying with their signatures.   
+In order to define a new pipeline, create a class that extends [embeddings_pipelines.model.pipelines.EmbeddingPipeline](playground/mirco_nani/embeddings_pipelines/src/embeddings_pipelines/model/pipelines.py) and implements its abstract methods complying with their signatures.   
 Implementation examples can be found [here](playground/mirco_nani/embeddings_pipelines/src/embeddings_pipelines/pipelines/three_stages_pipelines.py).  
 If you are adding this pipeline class inside the embeddings_pipelines package, put it in **embeddings_pipelines.pipelines**.   
   
 If the pipeline needs models that are not already defined, new model definitions can be added by extending the [embeddings_pipelines.model.models.PredictionModel](playground/mirco_nani/embeddings_pipelines/src/embeddings_pipelines/model/models.py) class.  
-If you are adding these new model definitions in inside the embeddings_pipelines package, put them in the **embeddings_pipelines.model.models** module  
+If you are adding these new model definitions inside the embeddings_pipelines package, put them in the **embeddings_pipelines.model.models** module  
   
 ### defining new models
-In order to define a new model, create a class thet extends a model definition found in the **embeddings_pipelines.model.models** module and implement its abstract methods while complying with their signatures.  
+In order to define a new model, create a class that extends a model definition found in the **embeddings_pipelines.model.models** module and implement its abstract methods while complying with their signatures.  
 Here are some implementation examples:
 * [DummyKeywordExtractionModel](playground/mirco_nani/embeddings_pipelines/src/embeddings_pipelines/models/keyword_extraction_models.py)
 * [DummyWordEmbeddingModel](playground/mirco_nani/embeddings_pipelines/src/embeddings_pipelines/models/word_embedding_models.py)
