@@ -20,6 +20,24 @@ every step is a PredictionModel
 the pipeline uses PredictionModels connecting their I/O in order to get the final embedding
 * **PredictionModel**: a class that contains a model which performs the internal operations of one step of a pipeline
 
+### Setup
+**Using pip**  
+``` 
+pip install git+https://git@github.com/Mirco-Nani/TheSoundOfAIOSR.git#"subdirectory=playground/mirco_nani/embeddings_pipelines" 
+```
+
+**Using git**  
+``` 
+git clone https://github.com/TheSoundOfAIOSR/rg_text_to_sound
+cd playground/mirco_nani/embeddings_pipelines
+
+# to develop the package
+pip install -r requirements.txt
+
+# to use the package outside its development environment
+pip install .
+```
+
 ### How to use
 First, choose which pipeline you want to use from the [available pipelines](playground/mirco_nani/embeddings_pipelines/src/embeddings_pipelines/pipelines)
 ```python
@@ -82,20 +100,23 @@ print(f""" "{sentence2}" -> {emb2} """)
 
 ## how to extend
 ### defining new pipelines
-In order to define a new pipeline, create a new class inside the **embeddings_pipelines.pipelines** package.  
-This class needs to extend [embeddings_pipelines.model.pipelines.EmbeddingPipeline](playground/mirco_nani/embeddings_pipelines/src/embeddings_pipelines/model/pipelines.py) and needs to implement its abstract methods complying with their signatures.  
+In order to define a new pipeline, create a class thet extends [embeddings_pipelines.model.pipelines.EmbeddingPipeline](playground/mirco_nani/embeddings_pipelines/src/embeddings_pipelines/model/pipelines.py) and implements its abstract methods complying with their signatures.   
 Implementation examples can be found [here](playground/mirco_nani/embeddings_pipelines/src/embeddings_pipelines/pipelines/three_stages_pipelines.py).  
+If you are adding this pipeline class inside the embeddings_pipelines package, put it in **embeddings_pipelines.pipelines**.   
   
-If the pipeline needs models that are not already defined, new model definitions can be added in the **embeddings_pipelines.model.models** module
+If the pipeline needs models that are not already defined, new model definitions can be added by extending the [embeddings_pipelines.model.models.PredictionModel](playground/mirco_nani/embeddings_pipelines/src/embeddings_pipelines/model/models.py) class.  
+If you are adding these new model definitions in inside the embeddings_pipelines package, put them in the **embeddings_pipelines.model.models** module  
+  
 ### defining new models
-In order to define a new model, create a new class inside the **embeddings_pipelines.models** package in the module (.py file) that has the same name of the implemented abstract class definition (create the module if it does not exist).  
-This class needs to extend a model definition found in the **embeddings_pipelines.model.models** module and implement its abstract methods while complying with their signatures.  
+In order to define a new model, create a class thet extends a model definition found in the **embeddings_pipelines.model.models** module and implement its abstract methods while complying with their signatures.  
 Here are some implementation examples:
 * [DummyKeywordExtractionModel](playground/mirco_nani/embeddings_pipelines/src/embeddings_pipelines/models/keyword_extraction_models.py)
 * [DummyWordEmbeddingModel](playground/mirco_nani/embeddings_pipelines/src/embeddings_pipelines/models/word_embedding_models.py)
 * [DummyMultipleWordsEmbeddingModel](playground/mirco_nani/embeddings_pipelines/src/embeddings_pipelines/models/multiple_words_embedding_models.py)
 * [DummyEmbeddingDimensionalityReductionModel](playground/mirco_nani/embeddings_pipelines/src/embeddings_pipelines/models/multiple_embeddings_dimensionality_reduction_model.py)
 * [DummyMultipleEmbeddingsDimensionalityReductionModel](playground/mirco_nani/embeddings_pipelines/src/embeddings_pipelines/models/multiple_embeddings_dimensionality_reduction_model.py)
+
+If you are adding these model classes inside the embeddings_pipelines package, put them in **embeddings_pipelines.models** in a module (.py file) that has the same name of the implemented abstract class definition (create the module if it does not exist).  
 
 
 ### usage example
