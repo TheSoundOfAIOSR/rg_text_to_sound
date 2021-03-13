@@ -28,5 +28,5 @@ class DummyKeywordExtractionModel(KeywordExtractionModel):
       return np.array(sentence.split() if self.separator is None else sentence.split(self.separator))
 
 
-    def dispose():
+    def dispose(self):
         pass

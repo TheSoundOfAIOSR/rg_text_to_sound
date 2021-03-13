@@ -24,8 +24,8 @@ class DummyMultipleWordsEmbeddingModel(MultipleWordsEmbeddingModel):
       Returns:
           np.array: a 1-D numpy array of floats with size K, being the embedding size
       """
-      return np.random.Generator.uniform(size=(self.embedding_size,))
+      return np.ones((self.embedding_size,))
 
 
-    def dispose():
+    def dispose(self):
         pass

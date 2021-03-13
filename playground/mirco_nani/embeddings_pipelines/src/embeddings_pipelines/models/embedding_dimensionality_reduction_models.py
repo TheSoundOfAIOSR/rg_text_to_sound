@@ -27,5 +27,5 @@ class DummyEmbeddingDimensionalityReductionModel(EmbeddingDimensionalityReductio
       return embedding[:self.reduced_embedding_size]
 
 
-    def dispose():
+    def dispose(self):
         pass
