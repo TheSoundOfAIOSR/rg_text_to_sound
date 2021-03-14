@@ -32,7 +32,7 @@ git clone https://github.com/TheSoundOfAIOSR/rg_text_to_sound
 cd playground/mirco_nani/embeddings_pipelines
 
 # to develop the package
-pip install -r requirements.txt
+pip install -r requirements/dev.txt
 
 # to use the package outside its development environment
 pip install .
@@ -129,6 +129,16 @@ NOTE:
   
 ![UML](playground/mirco_nani/embeddings_pipelines/assets/uml.png)
 
+
+## Tests
+Tests are based on [pytest](https://docs.pytest.org/) and are located on the [tests](tests) folder.  
+To execute the tests, launch ```pytest tests```.    
+When adding new tests please follow the same folder structure as src.  
+Test classes follow the same inheritance relations shown in the UML.  
+When defining new test classes please try to respect the same inheritance structure as the classes tested in them.  
+For an example please refer to the contents of  
+* [tests/embeddings_pipelines/model/test_models.py](playground/mirco_nani/embeddings_pipelines/tests/embeddings_pipelines/model/test_models.py)  
+* [tests/embeddings_pipelines/models/test_keyword_extraction_models.py](playground/mirco_nani/embeddings_pipelines/tests/embeddings_pipelines/models/test_keyword_extraction_models.py)  
 
 # Other resources
 ## Git Tutorial

@@ -63,7 +63,7 @@ class MergeAtWordEmbeddingStepPipeline(EmbeddingPipeline):
         small_embedding = self.dimensionality_reduction_model.predict(big_embedding)
         return small_embedding
 
-    def dispose():
+    def dispose(self):
         self.keyword_extraction_model.dispose()
         self.word_embedding_model.dispose()
         self.dimensionality_reduction_model.dispose()
@@ -119,7 +119,7 @@ class MergeAtDimensionalityReductionStepPipeline(EmbeddingPipeline):
         small_embedding = self.dimensionality_reduction_model.predict(big_embedding)
         return small_embedding
 
-    def dispose():
+    def dispose(self):
         self.keyword_extraction_model.dispose()
         self.word_embedding_model.dispose()
         self.dimensionality_reduction_model.dispose()

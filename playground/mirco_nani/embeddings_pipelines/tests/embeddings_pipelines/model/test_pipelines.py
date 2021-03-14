@@ -11,7 +11,7 @@ class ExampleEmbeddingPipeline2(EmbeddingPipeline):
     def build(self):
         pass
 
-    def embed(self):
+    def embed(self, a=1):
         return np.array([1,2,3])
 
     def dispose(self):
@@ -19,6 +19,8 @@ class ExampleEmbeddingPipeline2(EmbeddingPipeline):
 
 
 class AbstractTestEmbeddingPipeline: #since this doesn't start with "Test" it won't get executed
+    predict_input = "a simple sentence"
+
     @pytest.fixture
     def built_pipeline(self, pipeline):
         pipeline.build()
@@ -26,9 +28,13 @@ class AbstractTestEmbeddingPipeline: #since this doesn't start with "Test" it wo
         pipeline.dispose()
 
 
-    def test_embedding_is_1d(self, built_pipeline):
-        result = built_pipeline.embed()
-        assert len(result.shape) == 1
+    @pytest.fixture
+    def simple_prediction(self, built_pipeline):
+        return built_pipeline.embed(self.predict_input)
+
+
+    def test_embedding_is_1d(self, simple_prediction):
+        assert len(simple_prediction.shape) == 1
 
 
 class TestEmbeddingPipelineSubclass(AbstractTestEmbeddingPipeline): #this WILL get executed, and since it inherits AbstractTestEmbeddingPipeline it will execute its fixtures and tests too!
