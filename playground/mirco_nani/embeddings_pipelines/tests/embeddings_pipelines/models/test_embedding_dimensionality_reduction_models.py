@@ -5,7 +5,8 @@ os.path.join(os.path.dirname(os.path.abspath(__file__)),'../../..')
 from tests.embeddings_pipelines.model.test_models import AbstractTestEmbeddingDimensionalityReductionModel
 sys.path.append( os.path.join(os.path.dirname(os.path.abspath(__file__)),'../../../src') )
 from embeddings_pipelines.models.embedding_dimensionality_reduction_models import (
-    DummyEmbeddingDimensionalityReductionModel
+    DummyEmbeddingDimensionalityReductionModel,
+    IdentityEmbeddingDimensionalityReductionModel
 )
 
 
@@ -17,3 +18,9 @@ class TestDummyEmbeddingDimensionalityReductionModel(AbstractTestEmbeddingDimens
 
     def test_output_dimensionality(self, simple_prediction):
         assert simple_prediction.shape[0] == self.embedding_size
+
+
+class TestIdentityEmbeddingDimensionalityReductionModel(AbstractTestEmbeddingDimensionalityReductionModel):
+    @pytest.fixture
+    def model(self):
+        return IdentityEmbeddingDimensionalityReductionModel()

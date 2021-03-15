@@ -54,7 +54,7 @@ class AbstractTestEmbeddingDimensionalityReductionModel(AbstractTestPredictionMo
     output_dimensions = 1
 
     def test_dimensionality_reduction(self, simple_prediction):
-        assert simple_prediction.shape[0] < self.predict_input.shape[0]
+        assert simple_prediction.shape[0] <= self.predict_input.shape[0]
 
 
 class AbstractTestMultipleEmbeddingDimensionalityReductionModel(AbstractTestPredictionModel):
@@ -62,4 +62,4 @@ class AbstractTestMultipleEmbeddingDimensionalityReductionModel(AbstractTestPred
     output_dimensions = 1
 
     def test_dimensionality_reduction(self, simple_prediction):
-        assert simple_prediction.shape[0] < self.predict_input.shape[1]
+        assert simple_prediction.shape[0] <= self.predict_input.shape[1]
