@@ -30,5 +30,5 @@ class DummyMultipleEmbeddingsDimensionalityReductionModel(MultipleEmbeddingsDime
       return np.mean(embeddings, axis=0)[:self.reduced_embedding_size]
 
 
-    def dispose():
+    def dispose(self):
         pass

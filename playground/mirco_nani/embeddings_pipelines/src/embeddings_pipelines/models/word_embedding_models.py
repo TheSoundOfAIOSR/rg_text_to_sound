@@ -25,8 +25,8 @@ class DummyWordEmbeddingModel(WordEmbeddingModel):
           np.array: a 2-D numpy array of floats with shape (N,K) where N is is the 
                     number of input words and K is the embedding size
       """
-      return np.random.rand(words.shape[0],self.embedding_size)
+      return np.ones((words.shape[0],self.embedding_size))
 
 
-    def dispose():
+    def dispose(self):
         pass
