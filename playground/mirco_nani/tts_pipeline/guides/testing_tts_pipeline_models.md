@@ -6,9 +6,9 @@ NOTE:
 
 ## Testing your model
 To test your model implementation, add the following file:  
-```tests/tts_pipeline/pipelines/waterfall/models/```  
+```tests/tts_pipeline/pipelines/waterfall/models/test_my_example_models.py```  
 Notice how this file has the same path of the module my_example_models under ```src``` and its name has the string ```test_``` prepended to the module's name.   
-Then, create your test classes in ```my_example_models.py``` as follows:
+Then, create your test classes in ```test_my_example_models.py``` as follows:
 ```python
 import pytest
 import numpy as np
@@ -30,14 +30,14 @@ class TestMyWaterfallEmbedder(AbstractTestWaterfallEmbedder):
         return request.param
 ```
 
-Then, run ```pytest tests -v``` to run all the tests, including your brand new test class.  
+Then, run ```pytest -v tests``` to run all the tests, including your brand new test class.  
 This could take a while, so if you want to just test your new class, run   
-```pytest tests/tts_pipeline/pipelines/waterfall/models/my_example_models.py```   
+```pytest -v tests/tts_pipeline/pipelines/waterfall/models/test_my_example_models.py```   
   
 NOTE:  
-* If ```example_models.py``` contains more than one model, test them here  
-* notice the naming conventions ```TestMyWaterfallEmbedder```, ```AbstractTestWaterfallEmbedder``` and the file's name ```my_example_models.py```.
-* ```MyWaterfallEmbedder``` will be tested against all the tests defined in ```AbstractTestWaterfallEmbedder```, if you're curious about what they are, have a look at [waterfall/test_pipeline.py](tests/tts_pipeline/pipelines/waterfall/test_pipeline.py), which also contains tests for the other two models used by WaterfallPipeline: ```AbstractTestWaterfallKeywordExtractor``` and ```AbstractTestWaterfallDimensionalityReducer```  
+* If ```my_example_models.py``` contains multiple models, test them in ```test_my_example_models.py```   
+* notice the naming conventions ```TestMyWaterfallEmbedder```, ```AbstractTestWaterfallEmbedder``` and the file's name ```test_my_example_models.py```.
+* ```MyWaterfallEmbedder``` will be tested against all the tests defined in ```AbstractTestWaterfallEmbedder```, if you're curious about what they are, have a look at [waterfall/test_pipeline.py](../tests/tts_pipeline/pipelines/waterfall/test_pipeline.py), which also contains tests for the other two models used by WaterfallPipeline: ```AbstractTestWaterfallKeywordExtractor``` and ```AbstractTestWaterfallDimensionalityReducer```  
 
 ## Adding custom tests
 You can add custom tests by defining new methods in your test class, their names need to begin with ```test_```.  
@@ -63,5 +63,5 @@ As ```simple_prediction```, there are other fixture provided by the superclass t
 * ```built_model```: the model coming from the fixture ```model```, but with its ```build()``` methid already invoked. Pytest will make sure tu invoke its ```dispose()``` method when all the tests on that model are done.
 * ```simple_prediction```: a prediction coming from the model. In this case the ```predict()``` method is invoked with the parameter ```**self.predict_input```. If you want to invoke your model with a custo input, you can
     * override the default ```predict_input```
-    * direcly use ```built_model``` to make your own predictions with your own inputs
-```same_simple_prediction```: This comes from another infocation of the model with the same input as ```simple_prediction```, it is used to test model invariance
+    * direcly use ```built_model``` to make your own predictions with your own inputs  
+* ```same_simple_prediction```: This comes from another infocation of the model with the same input as ```simple_prediction```, it is used to test model invariance

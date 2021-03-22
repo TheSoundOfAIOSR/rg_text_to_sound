@@ -47,7 +47,7 @@ inference_pipeline.dispose()                          # frees memory and resourc
 pip install git+https://git@github.com/TheSoundOfAIOSR/rg_text_to_sound.git#"subdirectory=playground/mirco_nani/tts_pipeline" 
 ```
 
-### **WaterfallPipeline**
+### Usage example: **WaterfallPipeline**
 ```python
 from tts_pipeline.pipelines.waterfall.pipeline import WaterfallPipeline
 from tts_pipeline.pipelines.waterfall.models.example import (
@@ -80,7 +80,7 @@ print(pred2)
 }
 ```
 
-You can use other models in the WaterfallPipeline as long as they are located in the module:  
+You can use other pre-made models in the WaterfallPipeline as long as they are located in the module:  
  ```tts_pipeline.pipelines.waterfall.models```  
 You can use other implementations of the WaterfallPipeline as long as they are located in the following module:   
  ```tts_pipeline.pipelines.waterfall.pipeline```
