@@ -87,4 +87,4 @@ You can use other implementations of the WaterfallPipeline as long as they are l
 
 
 ## Can I use my own models?
-Yes, have a look at **[Extending TTS Pipeline](extending_tts_pipeline.md)**
+Yes, have a look at **[Extending TTS Pipeline](guides/extending_tts_pipeline.md)**

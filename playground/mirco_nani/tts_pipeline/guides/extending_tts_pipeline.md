@@ -1,7 +1,7 @@
-If you are here by mistake, read the [README.md](README.md) first.
+If you are here by mistake, read the [README.md](../README.md) first.
 
 # Extending TTS Pipeline
-This guide explains how to use models that are not currently included in the tts_pipeline module an how to add them to it
+This guide explains how to use models that are not currently included in the tts_pipeline package an how to add them to it
 
 ## Using custom models in the pipelines
 Every pipeline defines the interfaces of its internal models in its **`pipeline.py`** file.  
@@ -20,7 +20,7 @@ Let's implement a custom WaterfallEmbedder that will use Google's "Universal Sen
 ```python
 from tts_pipeline.pipelines.waterfall.pipeline import WaterfallEmbedder
 
-# mandatory tensorflow dependencies
+# tensorflow dependencies
 import tensorflow as tf
 import tensorflow_hub as hub
 import tensorflow_text as text
@@ -85,6 +85,48 @@ print(pred2)
 }
 ```
 
-## Adding new models to the TTS Pipelines module
+## Adding new models to the TTS Pipelines package
 
-#TODO
+Now that we developed our new WaterfallEmbedder, we can put the class code in a python module under tts_pipeline.pipelines.waterfall.models.
+
+### Setup  
+``` 
+git clone https://github.com/TheSoundOfAIOSR/rg_text_to_sound
+
+cd playground/mirco_nani/tts_pipeline
+
+pip install -r requirements/dev.txt
+```
+
+### Implementation
+Add a new python module under src/tts_pipeline/pipelines/waterfall/models, let's name it my_example_models.py  
+Then, put the code of ```MyWaterfallEmbedder``` in it.
+  
+NOTE:  
+* This file can contain any number of model classes as long as they extend the abstract definitions contained in tts_pipeline.pipelines.waterfall.pipeline, hence DummyWaterfallKeywordExtractor, BERTWaterfallEmbedder or DummyWaterfallDimensionalityReducer   
+* A model that implements abstact definitions of another pipeline needs to be placed in the corresponding package: tts_pipeline.pipelines.\<PIPELINE_NAME\>.models   
+(which corresponds to the folder: src/tts_pipeline/pipelines/\<PIPELINE_NAME\>/models)
+
+At this point the model is part of the tts_pipeline package and can be used with normal imports  
+```python
+from tts_pipeline.pipelines.waterfall.pipeline import WaterfallPipeline
+from tts_pipeline.pipelines.waterfall.models.example import (
+    DummyWaterfallKeywordExtractor,
+    DummyWaterfallDimensionalityReducer
+)
+from tts_pipeline.pipelines.waterfall.models.my_example_models import MyWaterfallEmbedder
+
+pipeline = WaterfallPipeline(
+    keyword_extractor = DummyWaterfallKeywordExtractor(),
+    embedder = MyWaterfallEmbedder(
+        tf_hub_url="https://tfhub.dev/google/universal-sentence-encoder/4"),
+    dimensionality_reducer = DummyWaterfallDimensionalityReducer())
+
+pipeline.build()                             
+pred2 = pipeline.predict("a bright and percussive acoustic guitar")
+pipeline.dispose()       
+```
+
+### BOUNS: Test the model
+If you're interested in testing your model with pytest, you can read **[Testing TTS Pipeline Models](testing_tts_pipeline_models.md)**
+
