@@ -10,11 +10,17 @@ from tts_pipeline.pipelines.waterfall.models.examples import (
     BERTWaterfallEmbedder,
     DummyWaterfallDimensionalityReducer
 )
+from tts_pipeline.pipelines.waterfall.models.gnews_models import GNewsWaterfallEmbedder
 
 PIPELINES_TO_TEST = [
     WaterfallPipeline(
         DummyWaterfallKeywordExtractor(),
         BERTWaterfallEmbedder(tf_hub_url = "https://tfhub.dev/tensorflow/small_bert/bert_en_uncased_L-4_H-128_A-2/1"),
+        DummyWaterfallDimensionalityReducer()
+    ),
+    WaterfallPipeline(
+        DummyWaterfallKeywordExtractor(),
+        GNewsWaterfallEmbedder(),
         DummyWaterfallDimensionalityReducer()
     )
 ]

@@ -38,7 +38,7 @@ class AbstractTestInferencePipeline:
 
     @pytest.fixture
     def simple_prediction(self, built_pipeline):
-        return built_pipeline.embed(self.predict_input)
+        return built_pipeline.predict(self.predict_input)
 
 
     def test_output_field_velocity(self, simple_prediction):
