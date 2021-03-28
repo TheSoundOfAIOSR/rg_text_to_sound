@@ -11,6 +11,10 @@ This README has two sections:
 Currently located at: [playground/mirco_nani/tts_pipeline/](playground/mirco_nani/tts_pipeline/)  
 This repository defines the skeleton of the pipelines used at inference time, a first design of the pipeline can be found [here](https://docs.google.com/presentation/d/1Cx96uZUxc3dx-PRyFl2v2R7lmjZ05UeixxwqPsBeEBQ/edit#slide=id.gbf06894dcc_0_30).  
 For informations on how to use TTS Pipeline, please read its [README.md](playground/mirco_nani/tts_pipeline/README.md)  
+## TTS WebsocketServer
+Currently located at: [playground/mirco_nani/tts_websocketserver/](playground/mirco_nani/tts_websocketserver/)  
+This repository holds the implementation of a websocket server that exposes TTS Pipeline's prediction functionalities for the Production Team.  
+For more informations on TTS WebsocketServer, please read its [README.md](playground/mirco_nani/tts_websocketserver/README.md)  
 
 
 # Other resources
