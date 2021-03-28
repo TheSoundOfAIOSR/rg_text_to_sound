@@ -1,4 +1,4 @@
-# TTS WebosocketServer
+# TTS WebsocketServer
 This is a websocket server based on [rgws](https://github.com/Redict/rg_websocket) for integration of our [inference pipeline](../tts_pipeline) with the production team  
 The server exposes an RPC method called **process_text** with the following I/O:  
 **Input**:
