@@ -42,6 +42,7 @@ inference_pipeline.dispose()                          # frees memory and resourc
 
 
 ## how do I use them?
+
 ### setup
 ``` 
 pip install git+https://git@github.com/TheSoundOfAIOSR/rg_text_to_sound.git#"subdirectory=playground/mirco_nani/tts_pipeline" 
@@ -88,3 +89,11 @@ You can use other implementations of the WaterfallPipeline as long as they are l
 
 ## Can I use my own models?
 Yes, have a look at **[Extending TTS Pipeline](guides/extending_tts_pipeline.md)**
+
+## I's still not very clear, can I have more resources?
+### Video tutorials and more resources
+* Registration of hands-on demo, plus custom model implementation demo: https://www.youtube.com/watch?v=qNQhxMjrxuI  
+* Registration of custom model implementation demo, but with more readable text: https://www.youtube.com/watch?v=WS5StYHLAPY   
+* Python notebook used during the demo: [tts_pipeline_hands_on.ipynb](notebooks/tts_pipeline_hands_on.ipynb)
+* Files added during the demos:
+    * [gnews_models.py](src/tts_pipeline/pipelines/waterfall/models/gnews_models.py)
