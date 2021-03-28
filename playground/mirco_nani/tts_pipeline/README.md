@@ -51,7 +51,7 @@ pip install git+https://git@github.com/TheSoundOfAIOSR/rg_text_to_sound.git#"sub
 ### Usage example: **WaterfallPipeline**
 ```python
 from tts_pipeline.pipelines.waterfall.pipeline import WaterfallPipeline
-from tts_pipeline.pipelines.waterfall.models.example import (
+from tts_pipeline.pipelines.waterfall.models.examples import (
     DummyWaterfallKeywordExtractor,
     BERTWaterfallEmbedder,
     DummyWaterfallDimensionalityReducer
