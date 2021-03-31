@@ -16,10 +16,9 @@ class SimpleClientInterface(WebsocketClient):
     """
 
     async def _producer(self, websocket):
-        req = {"text": "give me a bright guitar"}
         logging.debug(await self.setup_model())
         logging.debug(await self.status())
-        logging.debug(await self.process_text(req))
+        logging.debug(await self.process_text("give me a bright guitar"))
         logging.debug(await self.status())
 
 
