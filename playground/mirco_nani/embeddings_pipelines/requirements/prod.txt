@@ -1,0 +1,4 @@
+numpy==1.19.2
+tensorflow>=2.4.0
+tensorflow_hub>=0.11.0
+tensorflow_text>=2.4.3
