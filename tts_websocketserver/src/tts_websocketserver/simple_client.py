@@ -16,25 +16,10 @@ class SimpleClientInterface(WebsocketClient):
     """
 
     async def _producer(self, websocket):
-<<<<<<< HEAD
-        try:
-            logging.debug(await self.setup_model())
-        except Exception as e:
-            logging.debug(f"setup_model call failed with error: {e}")
-        try:
-            logging.debug(await self.status())
-        except Exception as e:
-            logging.debug(f"status call failed with error: {e}")
-        try:
-            logging.debug(await self.process_text("give me a bright guitar"))
-        except Exception as e:
-            logging.debug(f"process_text call failed with error: {e}")
-=======
         logging.debug(await self.setup_model())
         logging.debug(await self.status())
         logging.debug(await self.process_text("give me a bright guitar"))
         logging.debug(await self.status())
->>>>>>> upstream/main
 
 
 if __name__ == "__main__":
