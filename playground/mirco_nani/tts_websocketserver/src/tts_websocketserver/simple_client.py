@@ -16,6 +16,7 @@ class SimpleClientInterface(WebsocketClient):
     """
 
     async def _producer(self, websocket):
+<<<<<<< HEAD
         try:
             logging.debug(await self.setup_model())
         except Exception as e:
@@ -28,10 +29,16 @@ class SimpleClientInterface(WebsocketClient):
             logging.debug(await self.process_text("give me a bright guitar"))
         except Exception as e:
             logging.debug(f"process_text call failed with error: {e}")
+=======
+        logging.debug(await self.setup_model())
+        logging.debug(await self.status())
+        logging.debug(await self.process_text("give me a bright guitar"))
+        logging.debug(await self.status())
+>>>>>>> upstream/main
 
 
 if __name__ == "__main__":
-    c = SimpleClientInterface(host="localhost", port=8080)
+    c = SimpleClientInterface(host="localhost", port=8787)
     loop = asyncio.get_event_loop()
     loop.run_until_complete(c.run())
     loop.run_forever()
