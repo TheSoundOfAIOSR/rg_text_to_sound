@@ -1,20 +1,30 @@
 # rg_text_to_sound
 **Research Group - Text to Sound**  
   
-This README has two sections:
-* Main Resources: the "primary"/"most used" resouces, with an in-depth explanation
+This README has three sections:
+* WebsocketServer usage: instructions to run the WebsocketServer for integration with the main system
+* Main Resources: the "primary"/"most used" resouces and where to find them in this repository
 * Other Resources: the resources that are implemented in this repository but are secondary, with a brief description and links to more in-depth READMEs
 
+# WebsocketServer usage
+## Setup
+Run ``` bash setup.sh ``` to install required dependencies.   
+Disclaimer: Due to the use of Tensorflow, the WebsocketServer is not compatible with Windows.
+## Usage
+Run ``` bash run_server.sh ``` to run the server. by default it will listen on port 8787   
+Run ``` bash run_client.sh ``` to run a test client that will communicate with the server.
+## Docs
+For more informations, see the tts_websocketserver [README.md](tts_websocketserver/README.md) 
 
 # Main Resources
 ## TTS Pipeline
-Currently located at: [playground/mirco_nani/tts_pipeline/](playground/mirco_nani/tts_pipeline/)  
+Currently located at: [tts_pipeline/](tts_pipeline)  
 This repository defines the skeleton of the pipelines used at inference time, a first design of the pipeline can be found [here](https://docs.google.com/presentation/d/1Cx96uZUxc3dx-PRyFl2v2R7lmjZ05UeixxwqPsBeEBQ/edit#slide=id.gbf06894dcc_0_30).  
-For informations on how to use TTS Pipeline, please read its [README.md](playground/mirco_nani/tts_pipeline/README.md)  
+For informations on how to use TTS Pipeline, please read its [README.md](tts_pipeline/README.md)  
 ## TTS WebsocketServer
-Currently located at: [playground/mirco_nani/tts_websocketserver/](playground/mirco_nani/tts_websocketserver/)  
+Currently located at: [tts_websocketserver/](tts_websocketserver/)  
 This repository holds the implementation of a websocket server that exposes TTS Pipeline's prediction functionalities for the Production Team.  
-For more informations on TTS WebsocketServer, please read its [README.md](playground/mirco_nani/tts_websocketserver/README.md)  
+For more informations on TTS WebsocketServer, please read its [README.md](tts_websocketserver/README.md)  
 
 
 # Other resources

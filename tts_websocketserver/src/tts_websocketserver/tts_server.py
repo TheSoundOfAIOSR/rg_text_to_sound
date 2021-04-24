@@ -15,6 +15,10 @@ class TTSPipelineManager:
         yield self.pipeline.predict(text)
         self.state = "Processed"
 
+    async def status(self):
+        return self.state
+
+
     def __del__(self):
         self.state = "Disposing"
         self.pipeline.dispose()

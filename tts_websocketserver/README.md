@@ -25,7 +25,7 @@ if this fails for any reason, run the following commands:
 pip install rgws
 ``` 
 ``` 
-pip install git+https://git@github.com/TheSoundOfAIOSR/rg_text_to_sound.git#"subdirectory=playground/mirco_nani/tts_pipeline"
+pip install git+https://git@github.com/TheSoundOfAIOSR/rg_text_to_sound.git#"subdirectory=tts_pipeline"
 ``` 
 
 ## Test run
