@@ -13,15 +13,14 @@ In the text2sound working group, we'll have the following directory structure:
             │   └───user2
             └───production
      └───other subgroups 
-### Where to place your code
-- Please place all your code in your own user directory. 
+
+
+## Where to place your code
+- Please place all your code in your own user directory, i.e. under text2sound-subgroup\playground\<firstname_lastname>. 
 - You are free to manage your subfolder as you like, but please be careful not to push changes to other user's folders!
 - Please create a Readme.md file in your directory- a text file describing the contents of your subfolder. 
 
-### Getting started with git - experts skip this
-Git is a widely used versioning control system. [Lots of tutorials](https://www.freecodecamp.org/news/learn-the-basics-of-git-in-under-10-minutes-da548267cc91/) exist. If you have any troubles starting (and are part of the sound of ai community), [contact me](beat.toedtli@ost.ch) any time.
-
-### Setting up and Using the sound-of-ai repo: useful commands for everyone
+### Cookiecutter
 Please use a [cookiecutter](https://cookiecutter.readthedocs.io/en/1.7.2/) template for your directory structure if possible. The [data science template](https://drivendata.github.io/cookiecutter-data-science/) might be useful:
 
 	#activate your local virtual environment if you have one, then:
@@ -31,7 +30,11 @@ Please use a [cookiecutter](https://cookiecutter.readthedocs.io/en/1.7.2/) templ
 
 You'll next fill in some data. What they call `repo_name` will be the name of your new subfolder, `project_name` will be in the title of the README.md of your new subfolder. Please have a look at that file's content. If suitable, follow their suggestions. 
 
-#### Git commands
+## Getting started with git - experts skip this
+Git is a widely used versioning control system. [Lots of tutorials](https://www.freecodecamp.org/news/learn-the-basics-of-git-in-under-10-minutes-da548267cc91/) exist. If you have any troubles starting (and are part of the sound of ai community), [contact me](beat.toedtli@ost.ch) any time.
+
+## Setting up and Using the sound-of-ai repo: useful commands for everyone
+### Git commands
 Please configure your local git installation to indicate your name and email addess:
 
     git config --global user.name "<Your-Full-Name>"
@@ -82,10 +85,14 @@ please [contact us](beat.toedtli@ost.ch).
 
 #### Working with branches
 #### Forking
-Please fork the soundofai repo to your github, create a new branch in our local repo, push your changes to your remote and then file a pull request.
+Please fork the soundofai repo to your github, [create a new branch](#branching) in our local repo, push your changes to your remote and then file a pull request.
+Forking the repository is done on the Github Repository website by clicking on the "fork" button. You'll get an copy of that repository in your own github account- where you can do whatever you want. In particular, you can push as many changes as you like.
+To file a pull request, go to your local fork of the SoundofAI repository, find "pull requests" and click on "new pull request". Make sure the pull request is submitted to the official TheSoundOfAIOSR repository.
+One of the coordinators will then approve or reject your pull request. If it is accepted, your code version shows up in the TheSoundOfAIOSR repository.
 
-####Branching
-To make sure you're working on your entirely separate code base, with no danger of pushging file changes for files other authors are working on, branches are useful! To create your own branch of a repository:
+
+#### Branching
+<a branching><a/>To make sure you're working on your entirely separate code base, with no danger of pushging file changes for files other authors are working on, branches are useful! To create your own branch of a repository:
 
     git checkout -b mycrazytest
 
