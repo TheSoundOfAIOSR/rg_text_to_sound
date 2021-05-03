@@ -11,20 +11,23 @@ from tts_pipeline.pipelines.waterfall.models.examples import (
     DummyWaterfallDimensionalityReducer
 )
 from tts_pipeline.pipelines.waterfall.models.gnews_models import GNewsWaterfallEmbedder
+from tts_pipeline.pipelines.waterfall.models.ner_model import NERKeywordExtractor
 
 PIPELINES_TO_TEST = [
+    #WaterfallPipeline(
+    #    DummyWaterfallKeywordExtractor(),
+    #    BERTWaterfallEmbedder(tf_hub_url = "https://tfhub.dev/tensorflow/small_bert/bert_en_uncased_L-4_H-128_A-2/1"),
+    #    DummyWaterfallDimensionalityReducer()
+    #),
     WaterfallPipeline(
-        DummyWaterfallKeywordExtractor(),
-        BERTWaterfallEmbedder(tf_hub_url = "https://tfhub.dev/tensorflow/small_bert/bert_en_uncased_L-4_H-128_A-2/1"),
-        DummyWaterfallDimensionalityReducer()
-    ),
-    WaterfallPipeline(
-        DummyWaterfallKeywordExtractor(),
+        NERKeywordExtractor(),
+        #DummyWaterfallKeywordExtractor(),
         GNewsWaterfallEmbedder(),
         DummyWaterfallDimensionalityReducer()
     )
 ]
 
+DEFAULT_SENTENCE="give me a bright guitar"
 
 class TestWaterfallPipeline(AbstractTestInferencePipeline):
     @pytest.fixture(params=PIPELINES_TO_TEST)
@@ -33,11 +36,11 @@ class TestWaterfallPipeline(AbstractTestInferencePipeline):
 
 
 class AbstractTestWaterfallKeywordExtractor(AbstractTestInferenceModel):
-    predict_input = dict(sentence="a simple sentence")
+    predict_input = dict(sentence=DEFAULT_SENTENCE)
 
 class AbstractTestWaterfallEmbedder(AbstractTestInferenceModel):
     predict_input = dict(
-        sentence="a simple sentence",
+        sentence=DEFAULT_SENTENCE,
         keyword_extraction_results={
             "soundquality": ['bright', 'percussive'],
             "instrument": "acoustic",
@@ -48,7 +51,7 @@ class AbstractTestWaterfallEmbedder(AbstractTestInferenceModel):
 
 class AbstractTestWaterfallDimensionalityReducer(AbstractTestInferenceModel):
     predict_input = dict(
-        sentence="a simple sentence",
+        sentence=DEFAULT_SENTENCE,
         keyword_extraction_results={
             "soundquality": ['bright', 'percussive'],
             "instrument": "acoustic",

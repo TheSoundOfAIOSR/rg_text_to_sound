@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 import pytest
 import numpy as np
 
+DEFAULT_SENTENCE="give me a bright guitar"
+
 class AbstractTestInferenceModel(ABC): #since this doesn't start with "Test" it won't get executed
     @abstractmethod
     def model(self):
@@ -27,7 +29,7 @@ class AbstractTestInferenceModel(ABC): #since this doesn't start with "Test" it 
 
 
 class AbstractTestInferencePipeline: 
-    predict_input = "a simple sentence"
+    predict_input = DEFAULT_SENTENCE
 
     @pytest.fixture
     def built_pipeline(self, pipeline):
