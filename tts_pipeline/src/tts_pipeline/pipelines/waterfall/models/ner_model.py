@@ -15,8 +15,9 @@ class NERKeywordExtractor(WaterfallKeywordExtractor):
 
     def predict(self, sentence: str) -> dict:
         prediction = self.model(sentence)
-        instrument = [ent.text for ent in prediction.ents if ent.label_ == "INSTR"][0]
+        instruments = [ent.text for ent in prediction.ents if ent.label_ == "INSTR"]
         qualities  = [ent.text for ent in prediction.ents if ent.label_ == "QLTY"]
+        instrument = "acoustic" if len(instruments)==0 else instruments[0]
         return {
             "soundquality": qualities,
             "instrument"  : instrument,

@@ -1,12 +1,6 @@
 import numpy as np
-#import tensorflow as tf
-#import tensorflow_hub as hub
-#import tensorflow_text as text  # Registers the ops.
-from tts_pipeline.pipelines.waterfall.pipeline import (
-    WaterfallKeywordExtractor,
-    WaterfallEmbedder,
-    WaterfallDimensionalityReducer
-)
+from tts_pipeline.pipelines.waterfall.pipeline import WaterfallKeywordExtractor
+from tts_pipeline.pipelines.waterfall.models.ner_model import NERKeywordExtractor
 import spacy
 from sklearn.cluster import KMeans
 from tts_pipeline.core import InferenceModel
@@ -61,7 +55,23 @@ class VelocityEstimator(WaterfallKeywordExtractor):
 
 
 class WordToWordsMatcher(WaterfallKeywordExtractor):
-    def __init__(self,target_words,model='en_core_web_lg'):
+    def __init__(self, target_words):
+        self.target_words=target_words
+
+    def build(self):
+        """
+            Target words
+        """
+        target_words = self.target_words
+        # you might need to run python -m spacy download en_core_web_lg first
+        try:
+            self.nlp = spacy.load('en_core_web_lg')
+        except OSError:
+            print(
+                'Language model not found. You might need to run python -m spacy download en_core_web_lg to download the model')
+            raise
+
+
         self.target_words = target_words
         self.model=model
 
@@ -153,37 +163,62 @@ class WordToWordsMatcher(WaterfallKeywordExtractor):
           print(key,val)
 
 class UnifiedKeywordExtractor(WaterfallKeywordExtractor):
-    def __init__(self,target_words,slow_str='',quick_str=''):
+    def __init__(self, target_words = ['slow', 'quick', 'yellow', 'loud', 'hard'], ner_model_path = None):
+        if ner_model_path is not None:
+            self.ner_keyword_extractor = NERKeywordExtractor(ner_model_path)
+        else:
+            self.ner_keyword_extractor = NERKeywordExtractor()
         self.word_to_words_matcher = WordToWordsMatcher(target_words)
-        self.velocity_estimator= VelocityEstimator(slow_str=slow_str,quick_str=quick_str)
+        self.keyword_extractor_by_list = KeywordExtractorByList()
+        
 
-    def build(self):        
-        self.word_to_words_matcher.build()        
-        self.velocity_estimator.build()
+    def build(self):
+        self.ner_keyword_extractor.build()
+        self.word_to_words_matcher.build()
+        self.keyword_extractor_by_list.build()
 
-    def predict(self,sentence):
-        #estimate the velocity given in sentence
-        velocity = self.velocity_estimator.predict(sentence)
-        #somehow generate a list of words given the sentence. This is still a bit too crude.
-        #TODO: 
-        # - stopword removal, 
-        # - reduction to the relevant words in the sentence, e.g. only nounds or adjectives
-        # - use more sophisticated tokenization?
-        word_list = sentence.split(' ')
-        #match the given word list to the target word list
-        matched_words = self.word_to_words_matcher.predict(word_list) 
-        d['soundquality']=matched_words
-        d['velocity']=velocity
-        return d
+    def predict(self, sentence):
+        ner_result = self.ner_keyword_extractor.predict(sentence)
+        free_keywords = ner_result["soundquality"]
+
+        d = self.keyword_extractor_by_list.predict(sentence)
+        velocity = d["velocity"]
+
+        matched_words = self.word_to_words_matcher.predict(free_keywords)  # TODO: use a more sophisticated tokenizer
+        # matched_words is a list of target words. I'm not yet sure how to return them.
+        # TODO: somehow merge matched_words into d before returning d
+        return {
+            "soundquality": list(set(matched_words)),
+            "instrument"  : "acoustic",
+            "velocity"    : velocity,
+            "pitch"       : 60
+        }
+
 
     def dispose(self):
+        self.ner_keyword_extractor.dispose()
         self.word_to_words_matcher.dispose()
-        self.velocity_estimator.dispose()
+        self.keyword_extractor_by_list.dispose()
 
-if __name__=='__main__':
-    target_words = ['slow', 'quick', 'yellow', 'loud', 'hard']
-    uf = UnifiedKeywordExtractor(target_words)
-    uf.build()
-    
-    uf.build(target_words)
-    us.predict('give me a slow, dark guitar sound')
+
+if __name__ == '__main__':
+    #ukwe = UnifiedKeywordExtractor()
+    #target_words = ['slow', 'quick', 'yellow', 'loud', 'hard']
+    #ukwe.build()
+    target_words = ["Bright","Dark","Full","Hollow","Smooth","Rough","Warm","Metallic","Smooth","Rough","Clear","Muddy","Thin","thick","Pure","Noisy","Rich","Sparse","Soft","Hard"]
+
+    wwm = WordToWordsMatcher(target_words)
+    wwm.build()
+    wwm.predict(target_words)
+    print(wwm.predict(['rigid','stiff']))
+
+    wwm = WordToWordsMatcher(target_words)
+    wwm.build()
+    print(wwm.predict(target_words))
+
+    extractor = UnifiedKeywordExtractor()
+    extractor.build()
+    print(extractor.predict("give me a rock sound guitar"))
+
+
+

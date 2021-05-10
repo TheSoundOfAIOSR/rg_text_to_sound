@@ -12,6 +12,7 @@ from tts_pipeline.pipelines.waterfall.models.examples import (
 )
 from tts_pipeline.pipelines.waterfall.models.gnews_models import GNewsWaterfallEmbedder
 from tts_pipeline.pipelines.waterfall.models.ner_model import NERKeywordExtractor
+from tts_pipeline.pipelines.waterfall.models.UnifiedKeywordExtractor import UnifiedKeywordExtractor
 
 PIPELINES_TO_TEST = [
     #WaterfallPipeline(
@@ -21,6 +22,12 @@ PIPELINES_TO_TEST = [
     #),
     WaterfallPipeline(
         NERKeywordExtractor(),
+        #DummyWaterfallKeywordExtractor(),
+        GNewsWaterfallEmbedder(),
+        DummyWaterfallDimensionalityReducer()
+    ),
+    WaterfallPipeline(
+        UnifiedKeywordExtractor(["Bright","Dark","Full","Hollow","Smooth","Rough","Warm","Metallic","Smooth","Rough","Clear","Muddy","Thin","thick","Pure","Noisy","Rich","Sparse","Soft","Hard"]),
         #DummyWaterfallKeywordExtractor(),
         GNewsWaterfallEmbedder(),
         DummyWaterfallDimensionalityReducer()
