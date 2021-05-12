@@ -19,15 +19,11 @@ The server exposes an RPC method called **process_text** with the following I/O:
 ## Setup
 ``` 
 pip install - r requirements.txt
-python -m spacy download en_core_web_lg
-python -m spacy download en_core_web_sm
 ```   
 if this fails for any reason, run the following commands:  
 ``` 
 pip install rgws
 pip install git+https://git@github.com/TheSoundOfAIOSR/rg_text_to_sound.git#"subdirectory=tts_pipeline"
-python -m spacy download en_core_web_lg
-python -m spacy download en_core_web_sm
 ``` 
 
 ## Test run

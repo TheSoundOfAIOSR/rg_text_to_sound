@@ -18,7 +18,11 @@ class KeywordExtractorByList(WaterfallKeywordExtractor):
         # you might need to run
         # python -m spacy download en_core_web_sm
         # first
-        self.nlp = spacy.load(self.spacy_model)
+        try:
+            self.nlp = spacy.load(self.spacy_model)
+        except OSError:
+            spacy.cli.download(self.spacy_model)
+            self.nlp = spacy.load(self.spacy_model)
         self.doc1 = self.nlp("""slow, super slow, snail, unhurried, leisurely, measured, moderate, deliberate, steady, 
         sedate, slow-moving, slow-going, easy, relaxed, unrushed, gentle, undemanding, comfortable, ponderous, 
         plodding, laboured, dawdling, loitering, lagging, laggard, sluggish, sluggardly, snail-like, tortoise-like, 
