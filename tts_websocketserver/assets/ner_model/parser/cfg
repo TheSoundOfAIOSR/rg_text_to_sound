@@ -3,11 +3,12 @@
   "beam_density":0.0,
   "beam_update_prob":1.0,
   "cnn_maxout_pieces":3,
-  "nr_feature_tokens":6,
+  "nr_feature_tokens":8,
   "deprecation_fixes":{
     "vectors_name":null
   },
-  "nr_class":82,
+  "learn_tokens":false,
+  "nr_class":107,
   "hidden_depth":1,
   "token_vector_width":96,
   "hidden_width":64,
