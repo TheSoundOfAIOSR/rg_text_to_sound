@@ -1,3 +1,5 @@
+import subprocess
+
 import numpy as np
 from tts_pipeline.pipelines.waterfall.pipeline import WaterfallKeywordExtractor
 from tts_pipeline.pipelines.waterfall.models.ner_model import NERKeywordExtractor
@@ -8,12 +10,15 @@ from sklearn.cluster import KMeans
 # from tts_pipeline.core import InferenceModel
 
 class KeywordExtractorByList(WaterfallKeywordExtractor):
+    def __init__(self, spacy_model='en_core_web_lg'):
+        self.spacy_model = spacy_model
+
     def build(self):
         # Load English tokenizer, tagger, parser and NER
         # you might need to run
         # python -m spacy download en_core_web_sm
         # first
-        self.nlp = spacy.load("en_core_web_sm")
+        self.nlp = spacy.load(self.spacy_model)
         self.doc1 = self.nlp("""slow, super slow, snail, unhurried, leisurely, measured, moderate, deliberate, steady, 
         sedate, slow-moving, slow-going, easy, relaxed, unrushed, gentle, undemanding, comfortable, ponderous, 
         plodding, laboured, dawdling, loitering, lagging, laggard, sluggish, sluggardly, snail-like, tortoise-like, 
@@ -130,9 +135,9 @@ class WordToWordsMatcher(WaterfallKeywordExtractor):
         try:
             self.nlp = spacy.load(self.spacy_model)
         except OSError:
-            print(
-                f'Language model not found. You might need to run python -m spacy download {self.spacy_model} to download the model')
-            raise
+            spacy.cli.download(self.spacy_model)
+            self.nlp = spacy.load(self.spacy_model)
+
 
         self.target_words = target_words
         self.vector_array = self.get_vector_array(target_words)
