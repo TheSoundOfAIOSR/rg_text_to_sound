@@ -14,6 +14,26 @@ from tts_pipeline.pipelines.waterfall.models.examples import (
     DummyWaterfallDimensionalityReducer
 )
 
+from tts_pipeline.pipelines.waterfall.models.ner_model import NERKeywordExtractor
+
+from tts_pipeline.pipelines.waterfall.models.UnifiedKeywordExtractor import UnifiedKeywordExtractor
+
+class TestNERKeywordExtractor(AbstractTestWaterfallKeywordExtractor):
+    @pytest.fixture(params=[
+        NERKeywordExtractor()
+    ])
+    def model(self, request):
+        return request.param
+
+
+class TestUnifiedKeywordExtractor(AbstractTestWaterfallKeywordExtractor):
+    @pytest.fixture(params=[
+        UnifiedKeywordExtractor()
+    ])
+    def model(self, request):
+        return request.param
+
+
 class TestDummyWaterfallKeywordExtractor(AbstractTestWaterfallKeywordExtractor):
     @pytest.fixture(params=[
         DummyWaterfallKeywordExtractor()

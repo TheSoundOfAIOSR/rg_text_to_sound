@@ -13,6 +13,7 @@ class NERKeywordExtractor(WaterfallKeywordExtractor):
     def build(self):
         self.model = spacy.load(self.model_path)
 
+
     def predict(self, sentence: str) -> dict:
         prediction = self.model(sentence)
         instruments = [ent.text for ent in prediction.ents if ent.label_ == "INSTR"]
@@ -27,3 +28,11 @@ class NERKeywordExtractor(WaterfallKeywordExtractor):
 
     def dispose(self):
         del self.model
+
+
+
+if __name__ == '__main__':
+
+    extractor = NERKeywordExtractor()
+    extractor.build()
+    print(extractor.predict("give me a harsh sound guitar"))
