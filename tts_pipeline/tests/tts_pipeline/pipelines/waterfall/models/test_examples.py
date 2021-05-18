@@ -31,13 +31,9 @@ class TestBERTWaterfallEmbedder(AbstractTestWaterfallEmbedder):
     def model(self, request):
         return request.param
 
-    def test_output_field_sentence(self, simple_prediction):
+    def test_output_fields(self, simple_prediction):
         assert "sentence" in simple_prediction
-
-    def test_output_field_instrument(self, simple_prediction):
         assert "instrument" in simple_prediction
-
-    def test_output_field_soundquality(self, simple_prediction):
         assert "soundquality" in simple_prediction
 
         
