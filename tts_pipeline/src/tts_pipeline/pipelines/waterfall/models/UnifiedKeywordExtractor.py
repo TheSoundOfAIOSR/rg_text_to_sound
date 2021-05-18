@@ -179,6 +179,8 @@ class WordToWordsMatcher(WaterfallKeywordExtractor):
         ['slow', 'quick', 'yellow', 'loud', 'hard']
         """
         vector_array = self.get_vector_array(words)
+        if len(vector_array) == 0:
+            return []
         clusterind = self.clusterer.predict(vector_array)
         ret_val = [self.target_words[i] for i in clusterind]
         return ret_val
@@ -252,6 +254,7 @@ class UnifiedKeywordExtractor(WaterfallKeywordExtractor):
         self.keyword_extractor_by_list.build()
 
     def predict(self, sentence):
+        sentence = sentence.lower()
         ner_result = self.ner_keyword_extractor.predict(sentence)
         free_keywords = ner_result["soundquality"]
 
@@ -292,5 +295,17 @@ if __name__ == '__main__':
     extractor = UnifiedKeywordExtractor(target_words, spacy_model='en_core_web_lg')
     extractor.build()
     print(extractor.predict("give me a rock sound guitar"))
+
+    for s in [
+        "give me a bright guitar",
+        "give me a warm guitar",
+        "GIVE ME A BRIGHT GUITAR",
+        "GIVE ME A WARM GUIT",
+        "HE GIVE ME A WARM GUITAR SOUND",
+        "Lorem ipsum dolor sit amet"
+    ]:
+        print(s)
+        print(extractor.predict(s))
+        print("---")
 
 
