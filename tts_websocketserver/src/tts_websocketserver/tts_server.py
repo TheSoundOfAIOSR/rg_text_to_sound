@@ -12,7 +12,7 @@ class TTSPipelineManager:
 
     async def process_text(self, text):
         self.state = "Processing"
-        yield self.pipeline.predict(text)
+        yield {"resp": self.pipeline.predict(text)}
         self.state = "Processed"
 
     async def status(self):
