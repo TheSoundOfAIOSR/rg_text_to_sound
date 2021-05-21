@@ -261,9 +261,7 @@ class UnifiedKeywordExtractor(WaterfallKeywordExtractor):
         d = self.keyword_extractor_by_list.predict(sentence)
         velocity = d["velocity"]
 
-        matched_words = self.word_to_words_matcher.predict(free_keywords)  # TODO: use a more sophisticated tokenizer
-        # matched_words is a list of target words. I'm not yet sure how to return them.
-        # TODO: somehow merge matched_words into d before returning d
+        matched_words = self.word_to_words_matcher.predict(free_keywords) 
         return {
             "soundquality": list(set(matched_words)),
             "instrument"  : "acoustic",
