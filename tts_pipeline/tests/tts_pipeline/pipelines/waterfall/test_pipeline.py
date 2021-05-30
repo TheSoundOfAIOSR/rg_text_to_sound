@@ -1,9 +1,9 @@
 import pytest
 import numpy as np
 import os, sys
-os.path.join(os.path.dirname(os.path.abspath(__file__)),'../../../..')
+os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..','..','..')
 from tests.tts_pipeline.test_core import AbstractTestInferencePipeline, AbstractTestInferenceModel, PIPELINE_INPUT_SENTENCES
-sys.path.append( os.path.join(os.path.dirname(os.path.abspath(__file__)),'../../../../src') )
+sys.path.append( os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','..','..','..','src') )
 from tts_pipeline.pipelines.waterfall.pipeline import WaterfallPipeline
 from tts_pipeline.pipelines.waterfall.models.examples import (
     DummyWaterfallKeywordExtractor,
@@ -12,7 +12,7 @@ from tts_pipeline.pipelines.waterfall.models.examples import (
 )
 from tts_pipeline.pipelines.waterfall.models.gnews_models import GNewsWaterfallEmbedder
 from tts_pipeline.pipelines.waterfall.models.ner_model import NERKeywordExtractor
-from tts_pipeline.pipelines.waterfall.models.UnifiedKeywordExtractor import UnifiedKeywordExtractor
+from tts_pipeline.pipelines.waterfall.models.UnifiedKeywordExtractor import UnifiedKeywordExtractor,UnifiedKeywordPairsExtractor
 
 PIPELINES_TO_TEST = [
     #WaterfallPipeline(
@@ -28,7 +28,11 @@ PIPELINES_TO_TEST = [
     #),
     WaterfallPipeline(
         UnifiedKeywordExtractor(["Bright","Dark","Full","Hollow","Smooth","Rough","Warm","Metallic","Smooth","Rough","Clear","Muddy","Thin","thick","Pure","Noisy","Rich","Sparse","Soft","Hard"]),
-        #DummyWaterfallKeywordExtractor(),
+        GNewsWaterfallEmbedder(),
+        DummyWaterfallDimensionalityReducer()
+    ),
+    WaterfallPipeline(
+        UnifiedKeywordPairsExtractor(),
         GNewsWaterfallEmbedder(),
         DummyWaterfallDimensionalityReducer()
     )
