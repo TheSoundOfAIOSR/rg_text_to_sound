@@ -7,8 +7,18 @@ import os
 
 def get_pipeline():
     return WaterfallPipeline(
-        keyword_extractor = UnifiedKeywordExtractor(
-            target_words = ["Bright","Dark","Full","Hollow","Smooth","Rough","Warm","Metallic","Clear","Muddy","Thin","thick","Pure","Noisy","Rich","Sparse","Soft","Hard"],
+        keyword_extractor = UnifiedKeywordPairsExtractor(
+            words_pairs = [
+                ("Bright", "Dark"),
+                ("Full",   "Hollow"),
+                ("Smooth", "Rough"),
+                ("Warm",   "Metallic"),
+                ("Clear",  "Muddy"),
+                ("Thin",   "Thick"),
+                ("Pure",   "Noisy"),
+                ("Rich",   "Sparse"),
+                ("Soft",   "Hard")
+            ],
             ner_model_path = os.path.join(assets_folder, "ner_model")
         ),
         embedder = GNewsWaterfallEmbedder(), # this is very small, so it runs fast
