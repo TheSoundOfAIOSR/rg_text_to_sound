@@ -189,6 +189,23 @@ class WordToWordsMatcher(WaterfallKeywordExtractor):
         del self.nlp
 
 
+
+
+
+#    def predict(self, words):
+#        vector_array = self.get_vector_array(words)
+#        if len(vector_array) == 0:
+#            return []
+#        clusterind = self.clusterer.predict(vector_array)
+#        print(clusterind)
+#        distances = [x[pos] for x in zip(self.clusterer.transform(vector_array) clusterind)]
+#        print(distances)
+#        print(len(clusterind), len(distances))
+#        raise
+#        ret_val = [self.target_words[i] for i in clusterind]
+#        return ret_val
+
+
 def test_word_to_words_matcher():
     """
     Code that might later be used to create tests.
@@ -275,25 +292,128 @@ class UnifiedKeywordExtractor(WaterfallKeywordExtractor):
         self.keyword_extractor_by_list.dispose()
 
 
+
+
+class WordToWordsPairsMatcher(WordToWordsMatcher):
+    def __init__(self, 
+        words_pairs = [
+            ("Bright", "Dark"),
+            ("Full",   "Hollow"),
+            ("Smooth", "Rough"),
+            ("Warm",   "Metallic"),
+            ("Clear",  "Muddy"),
+            ("Thin",   "Thick"),
+            ("Pure",   "Noisy"),
+            ("Rich",   "Sparse"),
+            ("Soft",   "Hard")
+        ], 
+        spacy_model = 'en_core_web_lg',
+        tolerance = 1e-06
+    ):
+        self.words_pairs=words_pairs
+        self.tolerance=tolerance
+        super().__init__([w for wp in words_pairs for w in wp], spacy_model)
+
+
+    def build(self):
+        super().build()
+        indices=dict(zip(self.target_words,self.clusterer.predict(self.get_vector_array(self.target_words))))
+        index_to_indices = {} # maps an index in the flattened list of pairs to the indices of itself and its opposite
+        index_to_pair_index = {} # maps an index in the flattened list of pairs to the index in the list of pairs (not flattened) that contains the corresponding word
+        for word, index in indices.items():
+            index_to_indices[index]=[(indices[first_w], indices[second_w]) for first_w, second_w in self.words_pairs if word in (first_w, second_w)][0]
+            index_to_pair_index[index] = [i for i,p in enumerate(self.words_pairs) if word in p ][0]
+        self.index_to_indices = index_to_indices
+        self.index_to_pair_index = index_to_pair_index
+
+
+    def predict(self, words):
+        vector_array = self.get_vector_array(words)
+        if len(vector_array) == 0:
+            return []
+        clusterind = self.clusterer.predict(vector_array)
+        distances = self.clusterer.transform(vector_array)
+        accumulators = np.zeros((len(self.words_pairs),2))
+        accumulator_initialized = np.zeros((len(self.words_pairs),),dtype=bool)
+        for i,dist in zip(clusterind,distances):
+            accumulators_index = self.index_to_pair_index[i] # index in the list of pairs
+            first_word_i, second_word_i = self.index_to_indices[i] # indices in the flattened list of pairs
+            first_distance, second_distance = dist[first_word_i], dist[second_word_i] # distance of closest word and its opposite
+            accumulator_initialized[accumulators_index] = True # mark the accumulator as initialized
+            accumulators[accumulators_index][0] += first_distance # add the distances to the selected accumulator
+            accumulators[accumulators_index][1] += second_distance # add the distances to the selected accumulator
+        res = []
+        for w,d,init in zip(self.words_pairs, accumulators, accumulator_initialized):
+            if init:
+                if d[0] - d[1] < -self.tolerance:
+                    res.append(w[0])
+                elif d[0] - d[1] > self.tolerance:
+                    res.append(w[1])
+                else: # if they are equal (up to a certain tolerance) we output neither of them
+                    continue
+        return res
+
+
+class UnifiedKeywordPairsExtractor(UnifiedKeywordExtractor):
+    def __init__(self, 
+        words_pairs = [
+            ("Bright", "Dark"),
+            ("Full",   "Hollow"),
+            ("Smooth", "Rough"),
+            ("Warm",   "Metallic"),
+            ("Clear",  "Muddy"),
+            ("Thin",   "Thick"),
+            ("Pure",   "Noisy"),
+            ("Rich",   "Sparse"),
+            ("Soft",   "Hard")
+        ],
+        ner_model_path = None, 
+        spacy_model='en_core_web_lg'
+    ):
+        if ner_model_path is not None:
+            self.ner_keyword_extractor = NERKeywordExtractor(ner_model_path)
+        else:
+            self.ner_keyword_extractor = NERKeywordExtractor()
+        self.word_to_words_matcher = WordToWordsPairsMatcher(words_pairs, spacy_model)
+        self.keyword_extractor_by_list = KeywordExtractorByList()
+
+
+
 if __name__ == '__main__':
     #ukwe = UnifiedKeywordExtractor()
     #target_words = ['slow', 'quick', 'yellow', 'loud', 'hard']
     #ukwe.build()
     target_words = ["Bright","Dark","Full","Hollow","Smooth","Rough","Warm","Metallic","Smooth","Rough","Clear","Muddy","Thin","thick","Pure","Noisy","Rich","Sparse","Soft","Hard"]
+    word_pairs = [
+            ("Bright", "Dark"),
+            ("Full",   "Hollow"),
+            ("Smooth", "Rough"),
+            ("Warm",   "Metallic"),
+            ("Clear",  "Muddy"),
+            ("Thin",   "Thick"),
+            ("Pure",   "Noisy"),
+            ("Rich",   "Sparse"),
+            ("Soft",   "Hard")
+        ]
 
-    wwm = WordToWordsMatcher(target_words)
+    wwm = WordToWordsPairsMatcher(word_pairs)
     wwm.build()
-    wwm.predict(target_words)
+    print(wwm.predict(target_words))
     print(wwm.predict(['rigid','stiff']))
+
+    
 
     wwm = WordToWordsMatcher(target_words)
     wwm.build()
     print(wwm.predict(target_words))
+    print(wwm.predict(['rigid','stiff']))
 
     extractor = UnifiedKeywordExtractor(target_words, spacy_model='en_core_web_lg')
     extractor.build()
     print(extractor.predict("give me a rock sound guitar"))
 
+    extractorPairs = UnifiedKeywordPairsExtractor(word_pairs, spacy_model='en_core_web_lg')
+    extractorPairs.build()
     for s in [
         "give me a bright guitar",
         "give me a warm guitar",
@@ -304,6 +424,7 @@ if __name__ == '__main__':
     ]:
         print(s)
         print(extractor.predict(s))
+        print(extractorPairs.predict(s))
         print("---")
 
 
