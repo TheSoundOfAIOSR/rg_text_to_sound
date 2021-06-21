@@ -10,46 +10,150 @@ Original file is located at
 import spacy
 import numpy as np
 from sklearn.cluster import KMeans
-
+import ipdb
 #!python -m spacy download en_core_web_lg
 
 # Commented out IPython magic to ensure Python compatibility.
 # %cd /content/rg_text_to_sound/tts_pipeline/src/
 
 from tts_pipeline.core import InferenceModel
+        
 class word_to_words_matcher(InferenceModel):
     def build(self,target_words):
-        self.target_tokens = np.array(target_words)
+        try:
+            self.target_tokens = list(target_words)
+        except AttributeError as err:
+            self.target_tokens = target_words
+        self.target_tokens_array = np.array(self.target_tokens)
         self.nlp = spacy.load('en_core_web_lg')
         vector_array = self.get_vector_array(self.target_tokens)
-
         self.clusterer = KMeans(n_clusters=vector_array.shape[0],init='random')
+        
         self.clusterer = self.clusterer.fit(vector_array)
 
         self.clusterer.cluster_centers_ = vector_array
 
-    def get_vector_array(self,word_list,verbose=False):
+    def get_token_vector_array(self,word_list,verbose=False):
+        """
+        Converts a list of words into a document and returns an array of the token word vectors of that document.
+        """
         docstr = " ".join(word_list)
         target_tokens_doc = self.nlp(docstr)
         vector_list = []
         for token in target_tokens_doc:
             if verbose:
-              print(token.text, token.has_vector, token.vector_norm, token.is_oov)
+                print(token.text, token.has_vector, token.vector_norm, token.is_oov)
             vector_list.append(token.vector)
+        return np.array(vector_list)
+   
+    def get_vector_array(self,word_list,verbose=False):
+        """
+        Converts a list of words into a document and returns an array of the token word vectors of that document.
+        """
+        vector_list = []
+        for word in word_list:
+            token = self.nlp(word)
+            if verbose:
+                print(token.text, token.has_vector, token.vector_norm, token.is_oov)
+            vector_list.append(token.vector.tolist())
         return np.array(vector_list)
 
     def match_word_to_words(self,new_word):
+        """
+        return the index"""
         vector_array = self.get_vector_array([new_word])
-        return self.clusterer.predict(vector_array.reshape(1,-1))
+        clusterind = self.clusterer.predict(vector_array.reshape(1,-1))
+        return self.target_tokens[clusterind[0]]
 
-    def predict(self,words):
+    def predict_index(self,words):
+        """
+        Returns a list of indices to the closest word in the clusterer list, for each word in words
+        """        
         vector_array = self.get_vector_array(words)
         clusterind = self.clusterer.predict(vector_array)
-        return self.target_tokens[clusterind].tolist()
+        return clusterind
+    
+    def predict(self,words):
+        """
+        Returns the matched word for each word in words.
+        """
+        clusterind = self.predict_index(words)
+        return self.target_tokens_array[clusterind].tolist()
 
     def dispose(self):
         del self.nlp
+from sklearn.neighbors import BallTree
+class word_to_wordpair_estimator(InferenceModel):
+    def build(self,word_pair_names,target_word_pairs,lang_model = 'en_core_web_lg'):
+        
+        if not hasattr(target_word_pairs,'shape'):
+            self.target_word_pairs = target_word_pairs
+        else:
+            self.target_word_pairs = np.array(target_word_pairs)
+            
+        self.nlp = spacy.load(lang_model)
 
+        self.wordpair_names_dict=dict()
+        self.wordpair_matcher_dict=dict()
+        self.ball_tree_dict=dict()
+        
+        for col,word_pair in zip(word_pair_names,target_word_pairs):
+            word1 = self.nlp(word_pair[0]).vector
+            word2 = self.nlp(word_pair[1]).vector
+            self.wordpair_names_dict[col] = (word_pair[0],word_pair[1])
+            arr = np.vstack([word1,word2])    
+            self.wordpair_matcher_dict[col]=arr
+            bt = BallTree(arr)
+            self.ball_tree_dict[col]=bt
+        pass
+    
+    def match_word_to_wordpair(self,word,word_pair,verbose=False):
+        wordvec = self.nlp(word).vector
+        wordvec = wordvec.reshape(1,wordvec.shape[0])
+        bt = self.ball_tree_dict[word_pair]
+        dist, ind = bt.query(wordvec, k=2)
+        closest_ind=ind[0][0]
+        other_ind = ind[0][1]
+        closest_dist = dist[0][closest_ind]
+        other_dist = dist[0][other_ind]
+        sliderval = closest_dist/(closest_dist+other_dist)
+        
+        if verbose:
+            print(f'{word:<30}',f'{sliderval:1.3f}', closest_ind,other_ind,'closer to ',self.wordpair_names_dict[word_pair][closest_ind],'than',self.wordpair_names_dict[word_pair][other_ind])
+        if other_ind< closest_ind:
+            proximity = 1-sliderval
+        else:
+            proximity = sliderval
+        closest_word=self.wordpair_names_dict[word_pair][closest_ind]
+        other_word=self.wordpair_names_dict[word_pair][other_ind]
+        d={'proximity':proximity,'slider value':sliderval,'closest dist':closest_dist,'other dist':other_dist,'closest word':closest_word,'other word':other_word}
+        return d
+        
+
+
+    
+    def get_token_vector_array(self,word_list,verbose=False):
+        """
+        Converts a list of words into a document and returns an array of the token word vectors of that document.
+        """
+        vector_list = []
+        for token in word_list:
+            token = self.nlp(token)[0]
+            if verbose:
+                print(token.text, token.has_vector, token.vector_norm, token.is_oov)
+            vector_list.append(token.vector)
+        return np.array(vector_list)
+    
+    def predict(self,words):
+        prediction_dict=dict()
+        for key in self.wordpair_matcher_dict:
+            prediction_dict[key]=self.wordpair_matcher_dict[key].predict(words)
+        return prediction_dict
+    
+    def dispose(self):
+        pass
+        
+        
 def test_word_to_words_matcher():
     """
     Code that might later be used to create tests.
