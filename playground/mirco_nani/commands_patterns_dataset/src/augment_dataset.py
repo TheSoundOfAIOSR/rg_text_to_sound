@@ -107,10 +107,7 @@ if __name__ == "__main__":
 
 
 #python augment_dataset.py \
-#   --source="/mnt/e/dev/mirco/SoundOfAI/datasets/03/cureted_pattern_lists.csv" \
-#   --dest_train="/mnt/e/dev/mirco/SoundOfAI/datasets/03/cureted_augmented_train.csv" \
-#   --dest_test_context="/mnt/e/dev/mirco/SoundOfAI/datasets/03/cureted_augmented_test_context.csv" \
-#   --dest_test_content="/mnt/e/dev/mirco/SoundOfAI/datasets/03/cureted_augmented_test_content.csv" \
-#   --dest_test_unseen="/mnt/e/dev/mirco/SoundOfAI/datasets/03/cureted_augmented_test_unseen.csv" \
-#   --test_context_fraction=0.5 \
-#   --test_content_fraction=0.5
+#   --source="/mnt/e/dev/mirco/SoundOfAI/datasets/03/original/cureted_pattern_lists.csv" \
+#   --dest_folder="/mnt/e/dev/mirco/SoundOfAI/datasets/03/augmented/" \
+#   --test_context_fraction=0.1 \
+#   --test_content_fraction=0.1
