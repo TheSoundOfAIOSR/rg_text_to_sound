@@ -1,0 +1,5 @@
+the csv data files are here:
+https://drive.google.com/drive/folders/1QLrFvobpouzzGLGMYM6I111c75kWnlrk
+
+ - Download "keyword_ids.csv" and all the files that begin with "test_"
+ - put them in a "data" folder under the "assets" folder to obtain assets/data

@@ -1,0 +1,3 @@
+spacy==3.0.6
+pandas
+tqdm
