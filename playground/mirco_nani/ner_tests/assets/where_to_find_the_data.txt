@@ -1,5 +1,5 @@
 the csv data files are here:
-https://drive.google.com/drive/folders/1QLrFvobpouzzGLGMYM6I111c75kWnlrk
+https://drive.google.com/drive/folders/1_2Gm7fNuZyXEEzPKPTqvKuP34Mevdt4D
 
- - Download "keyword_ids.csv" and all the files that begin with "test_"
+ - Download all the files that begin with "test_", avoid downloading "test_context.csv" to speed up tests
  - put them in a "data" folder under the "assets" folder to obtain assets/data
