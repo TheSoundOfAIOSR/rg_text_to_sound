@@ -20,7 +20,7 @@ def results(results_folder, flattened=True):
                 result = json.load(open(test_path,"r"))
                 result["model"] = model
                 result["export"] = model_export
-                result["test"] = test
+                result["test"] = test_name
                 yield flatten_dict(result) if flattened else result 
 
 
