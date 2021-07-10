@@ -107,6 +107,7 @@ class CommandsPatternsDataset:
             ("pattern",np.ravel(patterns_meta)),
             ("pattern_id",np.ravel(patterns_id_meta))
         ]
+        count_col=0
         for count_col,m in enumerate(new_meta):
             for k,v in m.items():
                 num = str(count_col).zfill(3)

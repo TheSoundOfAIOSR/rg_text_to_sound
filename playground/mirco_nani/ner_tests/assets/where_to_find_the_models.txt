@@ -1,0 +1,6 @@
+The models are here:
+https://drive.google.com/drive/folders/1VyoNXOBBOeBEeCQnuB8gqBxxN412s9ag
+
+- Download the "models" folder
+- put the "models" folder in the "assets" folder to obtain assets/models
+- every folder in "models" has a "training" subfolder, containing "model-best" and "model-last"
