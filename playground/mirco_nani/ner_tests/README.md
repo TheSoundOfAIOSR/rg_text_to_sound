@@ -9,7 +9,14 @@
 ```bash
 cd src
 python -m ner_tests.run AllTests
-```
-
-## results
+```  
 results will be located under assets/results
+
+
+## summary
+To produce a summary csv of the results, run the following:
+```bash
+cd src
+python -m ner_tests.summarize
+``` 
+This command will produce the file assets/results/summary.csv
