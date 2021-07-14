@@ -9,8 +9,12 @@ Original file is located at
 
 import spacy
 import numpy as np
+import pandas as pd
 from sklearn.cluster import KMeans
 import ipdb
+from sklearn.neighbors import BallTree
+import matplotlib.pyplot as plt
+
 #!python -m spacy download en_core_web_lg
 
 # Commented out IPython magic to ensure Python compatibility.
@@ -19,13 +23,13 @@ import ipdb
 from tts_pipeline.core import InferenceModel
         
 class word_to_words_matcher(InferenceModel):
-    def build(self,target_words):
+    def build(self,target_words,lang_model='en_core_web_lg'):
         try:
             self.target_tokens = list(target_words)
         except AttributeError as err:
             self.target_tokens = target_words
         self.target_tokens_array = np.array(self.target_tokens)
-        self.nlp = spacy.load('en_core_web_lg')
+        self.nlp = spacy.load(lang_model)
         vector_array = self.get_vector_array(self.target_tokens)
         self.clusterer = KMeans(n_clusters=vector_array.shape[0],init='random')
         
@@ -82,7 +86,8 @@ class word_to_words_matcher(InferenceModel):
 
     def dispose(self):
         del self.nlp
-from sklearn.neighbors import BallTree
+        
+
 class word_to_wordpair_estimator(InferenceModel):
     def build(self,word_pair_names,target_word_pairs,lang_model = 'en_core_web_lg'):
         
@@ -108,39 +113,47 @@ class word_to_wordpair_estimator(InferenceModel):
         pass
     
     def match_word_to_wordpair(self,word,word_pair,verbose=False):
+        
         wordvec = self.nlp(word).vector
         wordvec = wordvec.reshape(1,wordvec.shape[0])
         bt = self.ball_tree_dict[word_pair]
         dist, ind = bt.query(wordvec, k=2)
-        closest_ind=ind[0][0]
-        other_ind = ind[0][1]
-        closest_dist = dist[0][closest_ind]
-        other_dist = dist[0][other_ind]
-        sliderval = closest_dist/(closest_dist+other_dist)
+        ind1=ind[0][0]
+        ind2 = ind[0][1]
+        if dist[0][0] < dist[0][1]:
+            closest_ind = ind1
+            other_ind = ind2
+        else:
+            #should never happen, as long as we use a sorted balltree
+            closest_ind = ind2
+            other_ind = ind1
+        closest_dist = dist[0][0]
+        other_dist = dist[0][1]
+        proximity = closest_dist/(closest_dist+other_dist)
         
         if verbose:
             print(f'{word:<30}',f'{sliderval:1.3f}', closest_ind,other_ind,'closer to ',self.wordpair_names_dict[word_pair][closest_ind],'than',self.wordpair_names_dict[word_pair][other_ind])
-        if other_ind< closest_ind:
-            proximity = 1-sliderval
+        if ind2< ind1:
+            sliderval = 1-proximity
         else:
-            proximity = sliderval
+            sliderval = proximity
         closest_word=self.wordpair_names_dict[word_pair][closest_ind]
         other_word=self.wordpair_names_dict[word_pair][other_ind]
         d={'proximity':proximity,'slider value':sliderval,'closest dist':closest_dist,'other dist':other_dist,'closest word':closest_word,'other word':other_word}
         return d
         
-
-
-    
     def get_token_vector_array(self,word_list,verbose=False):
         """
         Converts a list of words into a document and returns an array of the token word vectors of that document.
         """
         vector_list = []
         for token in word_list:
+            ipdb.set_trace()
             token = self.nlp(token)[0]
             if verbose:
                 print(token.text, token.has_vector, token.vector_norm, token.is_oov)
+            if token.is_oov:
+                print(f'Warning- token {token} is out of vocabulary')
             vector_list.append(token.vector)
         return np.array(vector_list)
     
@@ -202,3 +215,110 @@ def test_word_to_words_matcher():
     for key,val in good_dict.items():
         print(key,val)
 
+        
+def create_threshold_plot(wordpairname,w2wpe,unique_word_list,thlist=None):
+    if thlist is None:
+        thlist = [0,0.2,*np.linspace(0.4,0.5,20).tolist()]
+    countlist = []
+    proximities = defaultdict(list)
+    proximities[wordpairname] = [w2wpe.match_word_to_wordpair(word,wordpairname)['proximity'] for word in unique_word_list]
+    
+    countlist = []
+    for threshold in thlist:
+        count = 0
+        proximity = np.array(proximities[wordpairname])
+        countlist.append(np.sum(np.where(proximity < threshold,1,0)))
+        
+    return countlist
+
+def Remoteness(w2wpe,wordpairname,word_pair_distance,unique_word_list=[]):
+    """
+    Try to measure how well <word> can be matched to <wordpairname>. Returns ratios of closest distance of words in unique_word_list
+    to any of the two words in the word pair.
+    """
+    dictlist = [w2wpe.match_word_to_wordpair(word,wordpairname) for word in unique_word_list]
+    proximities = pd.Series([d['proximity'] for d in dictlist])
+    closest_dists = pd.Series([d['closest dist'] for d in dictlist])
+    other_dists = pd.Series([d['other dist'] for d in dictlist])
+    remoteness = (word_pair_distance/closest_dists)
+    
+    return remoteness
+        
+def plot_remoteness(lang_model_list,wordpairnames,target_word_pairs,wordpairdistances,fname='',figsize=(15,8),unique_word_list=[]):
+    """
+    Plot histograms (for each wordpair) of the "Remoteness", defined as the ratio of the closest distance of words to a wordpair.
+    """
+    plt.figure(figsize=figsize)
+    for lang_model in lang_model_list:
+        w2wpe_sm = word_to_wordpair_estimator()
+        w2wpe_sm.build(wordpairnames,target_word_pairs,lang_model=lang_model)
+        for iplot,wordpair in enumerate(wordpairdistances.index):
+            plt.subplot(3,3,iplot+1)
+            word_pair_distance = wordpairdistances[wordpair]
+            remoteness = Remoteness(w2wpe_sm,wordpair,
+                                    word_pair_distance,
+                                    unique_word_list=unique_word_list)
+            remoteness = remoteness[remoteness<1e9] #there might be 'inf'-values
+            plt.hist(remoteness.dropna(),bins=30,label=lang_model);
+            plt.xlim(0,np.max([plt.xlim()[1],3]))
+            plt.title(f'{wordpair}')
+    plt.legend()
+    plt.suptitle(f'Ratio of the distance to the closest word in the wordpair to the distance between the target words\n\
+using word vectors from {",".join(lang_model_list)}')
+    if fname:
+        plt.savefig(fname)        
+        
+def Angles(w2wpe,wordpairname,word_pair_distance,unique_word_list=[]):
+    """
+    Try to measure how well <word> can be matched to <wordpairname>
+    """
+    dictlist = [w2wpe.match_word_to_wordpair(word,wordpairname) for word in unique_word_list]
+    proximities = pd.Series([d['proximity'] for d in dictlist])
+    closest_dists = pd.Series([d['closest dist'] for d in dictlist])
+    other_dists = pd.Series([d['other dist'] for d in dictlist])
+    undefVals = (2*closest_dists*other_dists)==0.0
+    cosvals = (-word_pair_distance**2+closest_dists**2+other_dists**2)/(2*closest_dists*other_dists)
+    cosvals[undefVals]=0.0
+    angles = np.arccos(cosvals)*180/np.pi
+    
+    return angles,undefVals
+
+
+def generate_training_examples(df):
+    for irow,row in df.iterrows():
+        if ', ' in row.description:
+            splitlist = row.description.split(', ')
+        else:
+            splitlist=[row.description]
+        for word in splitlist:
+            yield row,word
+
+def prepare_dataset(df):
+    wordlist = []
+    rowlist =[]
+    for r,w in generate_training_examples(df):
+        wordlist.append(w)
+        rowlist.append(r)
+    dfnew = pd.DataFrame(rowlist)
+    dfnew['description']=wordlist
+    dfnew.shape
+    dfnew = dfnew.groupby('description').mean()
+    dfnew.reset_index(inplace=True)
+    
+    return dfnew
+
+def max_occurrence_prediction(wordlist,w2wm,target_word_list,variant=1):
+    """
+    predict that word that occurs most often in a wordlist
+    """
+    #set_trace()
+    if variant==2:
+        yhat = []
+        for word in wordlist:
+            yhat_elems = w2wm.predict([word])
+            yhat_elem = max(set(yhat_elems), key = target_word_list.count)
+            yhat.append(yhat_elem)
+    elif variant==1:
+        yhat = [max(set(w2wm.predict([word])), key = target_word_list.count) for word in wordlist]
+
+    return yhat
