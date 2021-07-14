@@ -158,10 +158,10 @@ class word_to_wordpair_estimator(InferenceModel):
         return np.array(vector_list)
     
     def predict(self,words):
-        prediction_dict=dict()
-        for key in self.wordpair_matcher_dict:
-            prediction_dict[key]=self.wordpair_matcher_dict[key].predict(words)
-        return prediction_dict
+        return [
+            {wordpair:self.match_word_to_wordpair(word,wordpair) for wordpair in self.target_word_pairs}
+        for word in words]
+        
     
     def dispose(self):
         pass
