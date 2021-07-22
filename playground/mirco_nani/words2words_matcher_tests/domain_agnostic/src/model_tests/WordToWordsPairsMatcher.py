@@ -1,7 +1,7 @@
 from test import test_model_and_save_results
 import os, sys
 
-repo_root = os.path.join(os.path.dirname(os.path.abspath(__file__)),'..', '..', '..', '..', '..')
+repo_root = os.path.join(os.path.dirname(os.path.abspath(__file__)),'..', '..', '..', '..', '..', '..')
 tts_pipeline_path = os.path.join(repo_root, 'tts_pipeline', 'src')
 sys.path.append(tts_pipeline_path)
 

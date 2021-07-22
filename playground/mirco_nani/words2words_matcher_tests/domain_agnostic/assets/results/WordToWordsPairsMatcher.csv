@@ -1,0 +1,10 @@
+slider,left_correct,left_incorrect,right_correct,right_incorrect,accuracy,left_support,right_support
+Bright_vs_Dark,12,0,15,5,0.84375,12,20
+Full_vs_Hollow,12,1,4,4,0.7619047619047619,13,8
+Smooth_vs_Rough,16,0,5,14,0.6,16,19
+Warm_vs_Metallic,9,0,1,0,1.0,9,1
+Clear_vs_Muddy,1,19,19,0,0.5128205128205128,20,19
+Thin_vs_Thick,2,14,18,1,0.5714285714285714,16,19
+Pure_vs_Noisy,16,2,0,0,0.8888888888888888,18,0
+Rich_vs_Sparse,11,1,0,0,0.9166666666666666,12,0
+Soft_vs_Hard,16,1,2,17,0.5,17,19
