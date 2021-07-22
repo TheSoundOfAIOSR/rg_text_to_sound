@@ -354,6 +354,38 @@ class WordToWordsPairsMatcher(WordToWordsMatcher):
         return res
 
 
+    def predict_closest_word_in_pair(self, word, pair_index):
+        """ Given a word and the index of a word_pair, returns the closest word in the pair. """
+        vector_array = self.get_vector_array([word])
+        if len(vector_array) == 0:
+            return
+        distances = self.clusterer.transform(vector_array)
+        dist = distances[0]
+        first_word_i, second_word_i = self.index_to_indices[pair_index] # indices in the flattened list of pairs
+        first_distance, second_distance = dist[first_word_i], dist[second_word_i] # distance of closest word and its opposite
+        return self.words_pairs[pair_index][int(first_distance > second_distance)]
+
+    
+    
+    def predict_closest_word_in_pair2(self, word, pair_index):
+        """ Given a word and the index of a word_pair, returns the closest word in the pair. """
+        vector_array = self.get_vector_array([word])
+        if len(vector_array) == 0:
+            return
+        clusterind = self.clusterer.predict(vector_array)
+        distances = self.clusterer.transform(vector_array)
+        for i,dist in zip(clusterind,distances):
+            if pair_index == self.index_to_pair_index[i]:
+                first_word_i, second_word_i = self.index_to_indices[i] # indices in the flattened list of pairs
+                first_distance, second_distance = dist[first_word_i], dist[second_word_i] # distance of closest word and its opposite
+                break
+        return self.words_pairs[pair_index][int(first_distance > second_distance)]
+
+        
+
+
+
+
 class UnifiedKeywordPairsExtractor(UnifiedKeywordExtractor):
     def __init__(self, 
         words_pairs = [
