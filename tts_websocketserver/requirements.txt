@@ -1,2 +1,2 @@
 rgws
-git+https://git@github.com/TheSoundOfAIOSR/rg_text_to_sound.git#"subdirectory=tts_pipeline"
+-r ../tts_pipeline/requirements/prod.txt
