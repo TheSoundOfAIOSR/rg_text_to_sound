@@ -1,2 +1,3 @@
-rgws
+rgws==0.1.5
+asyncio==3.4.3
 -r ../tts_pipeline/requirements/prod.txt
