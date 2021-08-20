@@ -1,2 +1,2 @@
-cd rg_text_to_sound/tts_websocketserver/src 
-./../../venv/bin/python -m tts_websocketserver.tts_server
+cd rg_text_to_sound/ 
+./venv/bin/python -m main_tts.py
