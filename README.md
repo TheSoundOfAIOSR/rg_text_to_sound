@@ -11,7 +11,7 @@ This README has three sections:
 Run ``` bash setup.sh ``` to install required dependencies.   
 Disclaimer: Due to the use of Tensorflow, the WebsocketServer is not compatible with Windows.
 ## Usage
-Run ``` bash run_server.sh ``` to run the server. by default it will listen on port 8787   
+Run ``` bash run_server.sh ``` or ``` python main_tts.py ``` to run the server.
 Run ``` bash run_client.sh ``` to run a test client that will communicate with the server.
 ## Docs
 For more informations, see the tts_websocketserver [README.md](tts_websocketserver/README.md) 
