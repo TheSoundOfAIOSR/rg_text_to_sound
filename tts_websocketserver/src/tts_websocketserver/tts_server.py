@@ -49,8 +49,12 @@ class TTSServerInterface(WebsocketServer):
         yield {"resp": True if tts_pipeline.state != "Setup" else False}
 
 
-if __name__ == "__main__":
+def run():
     s = TTSServerInterface(host="localhost", port=8787)
     loop = asyncio.get_event_loop()
     loop.run_until_complete(s.run())
     loop.run_forever()
+
+
+if __name__ == "__main__":
+    run()
