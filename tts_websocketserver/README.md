@@ -25,6 +25,11 @@ if this fails for any reason, run the following commands:
 pip install rgws
 pip install git+https://git@github.com/TheSoundOfAIOSR/rg_text_to_sound.git#"subdirectory=tts_pipeline"
 ``` 
+Then run the following:  
+``` 
+cd src
+python -m tts_websocketserver.initialize
+```   
 
 ## Test run
 **Server**:
