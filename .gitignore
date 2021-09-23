@@ -127,3 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+### CUSTOM ###
+
+# This model is big and is usually downloaded at runtime
+tts_websocketserver/assets/ner_model/transformer/model/pytorch_model.bin
