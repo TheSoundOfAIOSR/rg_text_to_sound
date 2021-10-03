@@ -21,7 +21,8 @@ def get_pipeline():
                 ("Rich",   "Sparse"),
                 ("Soft",   "Hard")
             ],
-            ner_model_path = os.path.join(assets_folder, "ner_model")
+            ner_model_path = os.path.join(assets_folder, "ner_model"),
+            verbose = True
         ),
         embedder = GNewsWaterfallEmbedder(), # this is very small, so it runs fast
         dimensionality_reducer = DummyWaterfallDimensionalityReducer())
