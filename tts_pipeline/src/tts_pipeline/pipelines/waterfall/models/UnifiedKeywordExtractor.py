@@ -6,6 +6,10 @@ from tts_pipeline.pipelines.waterfall.models.ner_model import NERKeywordExtracto
 import spacy
 from sklearn.cluster import KMeans
 
+import logging
+
+logging.getLogger().setLevel(logging.DEBUG)
+
 
 # from tts_pipeline.core import InferenceModel
 
@@ -256,13 +260,14 @@ def test_word_to_words_matcher():
 
 
 class UnifiedKeywordExtractor(WaterfallKeywordExtractor):
-    def __init__(self, target_words = ['slow', 'quick', 'yellow', 'loud', 'hard'], ner_model_path = None, spacy_model='en_core_web_lg'):
+    def __init__(self, target_words = ['slow', 'quick', 'yellow', 'loud', 'hard'], ner_model_path = None, spacy_model='en_core_web_lg', verbose=False):
         if ner_model_path is not None:
             self.ner_keyword_extractor = NERKeywordExtractor(ner_model_path)
         else:
             self.ner_keyword_extractor = NERKeywordExtractor()
         self.word_to_words_matcher = WordToWordsMatcher(target_words, spacy_model)
         self.keyword_extractor_by_list = KeywordExtractorByList()
+        self.verbose=verbose
         
 
     def build(self):
@@ -270,21 +275,32 @@ class UnifiedKeywordExtractor(WaterfallKeywordExtractor):
         self.word_to_words_matcher.build()
         self.keyword_extractor_by_list.build()
 
+
+    def _log(self, *stuff):
+        if self.verbose:
+            logging.debug(" ".join([str(s) for s in stuff]))
+
+
     def predict(self, sentence):
+        self._log("receved ", sentence)
         sentence = sentence.lower()
         ner_result = self.ner_keyword_extractor.predict(sentence)
         free_keywords = ner_result["soundquality"]
+        self._log("recognized qualities: ", free_keywords)
 
         d = self.keyword_extractor_by_list.predict(sentence)
         velocity = d["velocity"]
 
         matched_words = self.word_to_words_matcher.predict(free_keywords) 
-        return {
+        self._log("matched keywords: ", matched_words)
+        result = {
             "soundquality": list(set(matched_words)),
             "instrument"  : "acoustic",
             "velocity"    : 75, #velocity, #returning fixed velocity for now as our velocity estimator could produce negative values
             "pitch"       : 60
         }
+        self._log("result: ", result)
+        return result
 
     def dispose(self):
         self.ner_keyword_extractor.dispose()
@@ -400,7 +416,8 @@ class UnifiedKeywordPairsExtractor(UnifiedKeywordExtractor):
             ("Soft",   "Hard")
         ],
         ner_model_path = None, 
-        spacy_model='en_core_web_lg'
+        spacy_model='en_core_web_lg',
+        verbose=False
     ):
         if ner_model_path is not None:
             self.ner_keyword_extractor = NERKeywordExtractor(ner_model_path)
@@ -408,6 +425,7 @@ class UnifiedKeywordPairsExtractor(UnifiedKeywordExtractor):
             self.ner_keyword_extractor = NERKeywordExtractor()
         self.word_to_words_matcher = WordToWordsPairsMatcher(words_pairs, spacy_model)
         self.keyword_extractor_by_list = KeywordExtractorByList()
+        self.verbose = verbose
 
 
 
