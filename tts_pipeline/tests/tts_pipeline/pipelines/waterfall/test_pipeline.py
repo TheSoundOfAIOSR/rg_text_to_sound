@@ -11,8 +11,9 @@ from tts_pipeline.pipelines.waterfall.models.examples import (
     DummyWaterfallDimensionalityReducer
 )
 from tts_pipeline.pipelines.waterfall.models.gnews_models import GNewsWaterfallEmbedder
-from tts_pipeline.pipelines.waterfall.models.ner_model import NERKeywordExtractor
+#from tts_pipeline.pipelines.waterfall.models.ner_model import NERKeywordExtractor
 from tts_pipeline.pipelines.waterfall.models.UnifiedKeywordExtractor import UnifiedKeywordExtractor,UnifiedKeywordPairsExtractor
+from tts_pipeline.pipelines.waterfall.models.UnifiedKeywordPairsExtractorV2 import UnifiedKeywordPairsExtractorV2
 
 PIPELINES_TO_TEST = [
     #WaterfallPipeline(
@@ -32,7 +33,7 @@ PIPELINES_TO_TEST = [
         DummyWaterfallDimensionalityReducer()
     ),
     WaterfallPipeline(
-        UnifiedKeywordPairsExtractor(),
+        UnifiedKeywordPairsExtractorV2(),
         GNewsWaterfallEmbedder(),
         DummyWaterfallDimensionalityReducer()
     )

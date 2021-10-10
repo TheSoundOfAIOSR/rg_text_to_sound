@@ -155,8 +155,15 @@ class WordToWordsMatcher(WaterfallKeywordExtractor):
         self.clusterer.cluster_centers_ = self.vector_array
 
     def get_vector_array(self, word_list, verbose=False):
-        docstr = " ".join(word_list)
-        target_tokens_doc = self.nlp(docstr)
+        #docstr = " ".join(word_list)
+        #target_tokens_doc = self.nlp(docstr)
+        # Not using NLP as we want to skip the tokenizer step
+        # words are already considered as tokens so we directly apply the NLP pipeline
+        r = spacy.tokens.doc.Doc(self.nlp.vocab, word_list)
+        for n,c in self.nlp.pipeline:
+            r=c(r)
+        target_tokens_doc = r
+
         vector_list = []
         for token in target_tokens_doc:
             if verbose:
