@@ -21,6 +21,11 @@ For more informations, see the tts_websocketserver [README.md](tts_websocketserv
 Currently located at: [tts_pipeline/](tts_pipeline)  
 This repository defines the skeleton of the pipelines used at inference time, a first design of the pipeline can be found [here](https://docs.google.com/presentation/d/1Cx96uZUxc3dx-PRyFl2v2R7lmjZ05UeixxwqPsBeEBQ/edit#slide=id.gbf06894dcc_0_30).  
 For informations on how to use TTS Pipeline, please read its [README.md](tts_pipeline/README.md)  
+### **NOTE**:
+There is a newly implemented keyword extractor: ``` tts_pipeline.pipelines.waterfall.models.UnifiedKeywordPairsExtractorV3.UnifiedKeywordPairsExtractorV3 ```  
+This keyword extractor is not currently used in tts_websocketserver since the older version (``` tts_pipeline.pipelines.waterfall.models.UnifiedKeywordPairsExtractorV2 ```) is currently under evaluation.  
+The newer version is supposed to be smarter and give better keyword matchings. More infos can be found in the doctring of the ``` UnifiedKeywordPairsExtractorV3 ``` class    
+
 ## TTS WebsocketServer
 Currently located at: [tts_websocketserver/](tts_websocketserver/)  
 This repository holds the implementation of a websocket server that exposes TTS Pipeline's prediction functionalities for the Production Team.  
