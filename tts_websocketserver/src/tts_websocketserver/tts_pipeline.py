@@ -3,7 +3,7 @@ sys.path.append( os.path.join(os.path.dirname(os.path.abspath(__file__)),'..','.
 
 from tts_pipeline.pipelines.waterfall.pipeline import WaterfallPipeline
 from tts_pipeline.pipelines.waterfall.models.UnifiedKeywordPairsExtractorV2 import UnifiedKeywordPairsExtractorV2
-from tts_pipeline.pipelines.waterfall.models.gnews_models import GNewsWaterfallEmbedder
+from tts_pipeline.pipelines.waterfall.models.zero_embedder import ZeroEmbedder
 from tts_pipeline.pipelines.waterfall.models.examples import DummyWaterfallDimensionalityReducer
 from tts_websocketserver.utils import assets_folder
 
@@ -24,7 +24,7 @@ def get_pipeline():
             ner_model_path = os.path.join(assets_folder, "ner_model"),
             verbose = True
         ),
-        embedder = GNewsWaterfallEmbedder(), # this is very small, so it runs fast
+        embedder = ZeroEmbedder(),
         dimensionality_reducer = DummyWaterfallDimensionalityReducer())
 
 if __name__ == "__main__":
